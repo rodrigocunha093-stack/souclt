@@ -1,0 +1,535 @@
+<title>Trilha dos Direitos — Jogo de Fases</title>
+<style>
+:root{
+  --sky1:#8fd0ef; --sky2:#c7ecf7; --sky3:#eafaf1;
+  --grass:#57b85f; --grass-d:#3f9a48;
+  --sun:#ffcb3d; --sun-d:#e8a91f;
+  --coral:#ff6b5e; --coral-d:#e0483b;
+  --blue:#3d8bd4; --blue-d:#2c6cad;
+  --violet:#8a6cf0; --violet-d:#6f4fe0;
+  --ink:#26384a; --ink-soft:#5f7486;
+  --card:#ffffff; --cream:#fff8ec; --edge:#e9ddc4;
+  --shadow:rgba(38,56,74,.18);
+  --font:system-ui,"Segoe UI",-apple-system,Roboto,"Helvetica Neue",sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{
+  font-family:var(--font);color:var(--ink);
+  background:linear-gradient(180deg,var(--sky1) 0%,var(--sky2) 40%,var(--sky3) 100%);
+  background-attachment:fixed;min-height:100vh;-webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+.app{max-width:520px;margin:0 auto;min-height:100vh;padding:16px;display:flex;flex-direction:column;position:relative}
+
+/* clouds decoration */
+.cloud{position:fixed;background:rgba(255,255,255,.55);border-radius:50px;filter:blur(1px);z-index:0;pointer-events:none}
+.cloud::before,.cloud::after{content:"";position:absolute;background:inherit;border-radius:50%}
+.c1{width:90px;height:26px;top:8%;left:6%;animation:drift 26s linear infinite}
+.c1::before{width:44px;height:44px;top:-20px;left:14px}.c1::after{width:32px;height:32px;top:-14px;left:44px}
+.c2{width:70px;height:20px;top:20%;right:8%;animation:drift 34s linear infinite reverse}
+.c2::before{width:34px;height:34px;top:-16px;left:10px}.c2::after{width:26px;height:26px;top:-10px;left:34px}
+@keyframes drift{0%{transform:translateX(-10px)}50%{transform:translateX(14px)}100%{transform:translateX(-10px)}}
+
+.screen{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;animation:pop .4s ease}
+@keyframes pop{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* ---------- mascot ---------- */
+.owl{width:120px;animation:bob 3.6s ease-in-out infinite;transform-origin:bottom center}
+.owl svg{width:100%;height:auto;display:block;filter:drop-shadow(0 8px 10px rgba(38,56,74,.22))}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-8px) rotate(-1.5deg)}}
+.owl.happy{animation:hop .6s ease}
+@keyframes hop{0%{transform:translateY(0)}30%{transform:translateY(-18px) scale(1.05)}60%{transform:translateY(0)}100%{transform:translateY(0)}}
+.owl.sad{animation:shakeh .5s ease}
+@keyframes shakeh{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px) rotate(-3deg)}75%{transform:translateX(6px) rotate(3deg)}}
+
+/* ---------- title ---------- */
+.title{align-items:center;justify-content:center;text-align:center;gap:6px}
+.title .owl{width:150px;margin-bottom:6px}
+.title .kicker{font-size:12px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:var(--blue-d)}
+.title h1{font-size:clamp(34px,10vw,48px);font-weight:900;letter-spacing:-.02em;line-height:.95;color:var(--ink);text-shadow:0 2px 0 #fff}
+.title h1 .g{color:var(--grass-d)}
+.title p{font-size:15px;color:var(--ink-soft);max-width:340px;margin:10px auto 0;line-height:1.5;font-weight:500}
+.play-btn{margin-top:22px}
+.btn-3d{
+  font-family:var(--font);font-weight:900;font-size:19px;cursor:pointer;border:none;color:#fff;
+  background:var(--grass);border-radius:16px;padding:15px 34px;box-shadow:0 5px 0 var(--grass-d);
+  transition:transform .1s, box-shadow .1s;letter-spacing:.01em;
+}
+.btn-3d:hover{transform:translateY(-2px);box-shadow:0 7px 0 var(--grass-d)}
+.btn-3d:active{transform:translateY(3px);box-shadow:0 2px 0 var(--grass-d)}
+.btn-3d.sun{background:var(--sun);color:#5a3d00;box-shadow:0 5px 0 var(--sun-d)}
+.btn-3d.sun:active{box-shadow:0 2px 0 var(--sun-d)}
+.btn-3d.blue{background:var(--blue);box-shadow:0 5px 0 var(--blue-d)}
+.btn-3d.ghost{background:#fff;color:var(--ink);box-shadow:0 5px 0 var(--edge)}
+.small-link{margin-top:14px;font-size:13px;color:var(--ink-soft);cursor:pointer;font-weight:700;text-decoration:underline;background:none;border:none;font-family:var(--font)}
+
+/* ---------- map ---------- */
+.map-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.map-head h2{font-size:22px;font-weight:900}
+.scorepill{display:flex;align-items:center;gap:6px;background:#fff;border-radius:999px;padding:6px 12px;font-weight:900;font-size:14px;box-shadow:0 3px 8px -3px var(--shadow)}
+.scorepill .star{color:var(--sun-d)}
+.trail{position:relative;flex:1;padding:14px 0 30px}
+.trail-line{position:absolute;top:0;left:50%;transform:translateX(-50%);height:100%;z-index:0}
+.nodes{position:relative;z-index:1;display:flex;flex-direction:column;gap:26px}
+.node{display:flex;align-items:center;gap:14px;cursor:pointer}
+.node:nth-child(odd){flex-direction:row}
+.node:nth-child(even){flex-direction:row-reverse;text-align:right}
+.node .bubble{
+  width:74px;height:74px;flex:none;border-radius:24px;display:flex;align-items:center;justify-content:center;
+  font-size:32px;position:relative;box-shadow:0 6px 0 rgba(0,0,0,.14), inset 0 2px 0 rgba(255,255,255,.4);
+  transition:transform .12s;
+}
+.node:hover .bubble{transform:scale(1.06) rotate(-2deg)}
+.node .bubble.locked{background:#c3ccd4;box-shadow:0 6px 0 #a9b4bd;filter:grayscale(.3)}
+.node .bubble.locked::after{content:"🔒";position:absolute;font-size:26px}
+.node .bubble.locked span{opacity:0}
+.node .meta{flex:1}
+.node .meta .ph{font-size:11px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft)}
+.node .meta .nm{font-size:16px;font-weight:800;line-height:1.15}
+.node .stars{display:flex;gap:2px;margin-top:3px;font-size:14px}
+.node:nth-child(even) .stars{justify-content:flex-end}
+.node .stars .s{color:#cdd6de}.node .stars .s.on{color:var(--sun-d)}
+.node.current .bubble{animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 6px 0 rgba(0,0,0,.14), 0 0 0 0 rgba(255,203,61,.6)}50%{box-shadow:0 6px 0 rgba(0,0,0,.14), 0 0 0 12px rgba(255,203,61,0)}}
+.b-green{background:var(--grass)}.b-blue{background:var(--blue)}.b-sun{background:var(--sun)}.b-violet{background:var(--violet)}.b-coral{background:var(--coral)}
+
+/* ---------- quiz ---------- */
+.qtop{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.qtop .back{background:#fff;border:none;width:38px;height:38px;border-radius:12px;font-size:18px;cursor:pointer;box-shadow:0 3px 0 var(--edge);font-weight:900;color:var(--ink)}
+.qtop .pbar{flex:1;height:14px;background:#fff;border-radius:999px;overflow:hidden;box-shadow:inset 0 2px 4px rgba(38,56,74,.12)}
+.qtop .pbar i{display:block;height:100%;background:linear-gradient(90deg,var(--grass),var(--sun));border-radius:999px;transition:width .35s ease}
+.qtop .hearts{display:flex;gap:2px;font-size:17px}
+.qbanner{display:flex;align-items:center;gap:10px;background:#fff;border-radius:16px;padding:10px 14px;margin-bottom:12px;box-shadow:0 4px 12px -6px var(--shadow)}
+.qbanner .ic{font-size:24px}
+.qbanner .t{font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft)}
+.qbanner .t b{display:block;font-size:15px;color:var(--ink);letter-spacing:0;text-transform:none}
+.qcard{background:#fff;border-radius:22px;padding:20px 18px;box-shadow:0 12px 30px -14px var(--shadow);position:relative}
+.qcard .qnum{font-size:12px;font-weight:900;color:var(--blue-d);letter-spacing:.06em}
+.qcard .qtext{font-size:20px;font-weight:800;line-height:1.28;margin:6px 0 16px;text-wrap:balance}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{
+  text-align:left;font-family:var(--font);font-size:15.5px;font-weight:700;cursor:pointer;color:var(--ink);
+  background:var(--cream);border:2px solid var(--edge);border-radius:14px;padding:14px 15px;
+  transition:transform .1s, border-color .1s, background .1s;display:flex;align-items:center;gap:11px;
+}
+.opt .kbd{width:26px;height:26px;flex:none;border-radius:8px;background:#fff;border:2px solid var(--edge);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:var(--ink-soft)}
+.opt:hover:not(:disabled){transform:translateY(-2px);border-color:var(--blue)}
+.opt:disabled{cursor:default}
+.opt.correct{background:#e5f7e6;border-color:var(--grass);color:var(--grass-d)}
+.opt.correct .kbd{background:var(--grass);border-color:var(--grass);color:#fff}
+.opt.wrong{background:#ffe9e6;border-color:var(--coral);color:var(--coral-d);animation:shk .4s}
+.opt.wrong .kbd{background:var(--coral);border-color:var(--coral);color:#fff}
+@keyframes shk{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+.opt.dim{opacity:.5}
+
+.feedback{margin-top:14px;border-radius:16px;padding:14px 15px;display:none;animation:pop .35s ease}
+.feedback.show{display:block}
+.feedback.ok{background:#e5f7e6;border:2px solid var(--grass)}
+.feedback.no{background:#fff2ea;border:2px solid var(--sun-d)}
+.feedback .fh{display:flex;align-items:center;gap:8px;font-weight:900;font-size:15px;margin-bottom:5px}
+.feedback.ok .fh{color:var(--grass-d)}.feedback.no .fh{color:var(--sun-d)}
+.feedback .fx{font-size:14px;line-height:1.5;font-weight:500;color:var(--ink)}
+.feedback .law{margin-top:8px;font-size:11.5px;font-weight:800;color:var(--ink-soft);background:rgba(38,56,74,.06);display:inline-block;padding:3px 9px;border-radius:7px}
+.next-wrap{display:flex;justify-content:flex-end;margin-top:14px}
+
+.qmascot{position:absolute;right:12px;top:-46px;width:64px;z-index:2}
+.qmascot .owl{width:64px;animation:none}
+
+/* ---------- phase result ---------- */
+.result{align-items:center;justify-content:center;text-align:center;gap:4px}
+.result .owl{width:130px}
+.result h2{font-size:28px;font-weight:900;margin-top:6px}
+.result .big-stars{display:flex;gap:10px;justify-content:center;margin:14px 0}
+.result .big-stars .bs{font-size:52px;color:#d3dbe2;transform:scale(0);animation:starpop .5s cubic-bezier(.2,1.5,.4,1) forwards}
+.result .big-stars .bs.on{color:var(--sun-d)}
+.result .big-stars .bs:nth-child(2){animation-delay:.15s}
+.result .big-stars .bs:nth-child(3){animation-delay:.3s}
+@keyframes starpop{to{transform:scale(1)}}
+.result .msg{font-size:16px;color:var(--ink-soft);font-weight:600;max-width:320px;line-height:1.5}
+.result .rscore{font-weight:900;font-size:15px;background:#fff;border-radius:999px;padding:8px 16px;box-shadow:0 4px 10px -5px var(--shadow);margin-top:6px}
+.result .actions{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap;justify-content:center}
+
+/* ---------- final ---------- */
+.cert{background:#fff;border-radius:22px;padding:26px 22px;text-align:center;box-shadow:0 16px 40px -18px var(--shadow);border:3px solid var(--sun)}
+.cert .seal{font-size:56px}
+.cert h2{font-size:26px;font-weight:900;margin:6px 0}
+.cert p{font-size:15px;color:var(--ink-soft);line-height:1.55;font-weight:500}
+.cert .name{font-weight:900;color:var(--grass-d);font-size:18px;margin:8px 0}
+.cert ul{text-align:left;margin:14px auto 0;max-width:360px;list-style:none;display:flex;flex-direction:column;gap:7px}
+.cert ul li{font-size:13.5px;font-weight:600;padding-left:26px;position:relative;line-height:1.4}
+.cert ul li::before{content:"🏅";position:absolute;left:0}
+
+/* confetti */
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:50;overflow:hidden}
+.confetti i{position:absolute;width:9px;height:14px;top:-20px;border-radius:2px;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(105vh) rotate(720deg)}}
+
+.hidden{display:none!important}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01s!important}}
+</style>
+
+<div class="cloud c1"></div>
+<div class="cloud c2"></div>
+<div class="app"><div id="root"></div></div>
+<div class="confetti hidden" id="confetti"></div>
+
+<template id="owl-svg">
+  <svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="70" cy="132" rx="40" ry="6" fill="rgba(38,56,74,.14)"/>
+    <!-- feet -->
+    <path d="M56 116 l-5 12 M62 118 l0 12 M60 118 l6 11" stroke="#e8a91f" stroke-width="4" stroke-linecap="round"/>
+    <path d="M84 116 l5 12 M78 118 l0 12 M80 118 l-6 11" stroke="#e8a91f" stroke-width="4" stroke-linecap="round"/>
+    <!-- body -->
+    <path d="M70 24 C34 24 26 58 30 84 C34 112 54 122 70 122 C86 122 106 112 110 84 C114 58 106 24 70 24 Z" fill="#6fbf74"/>
+    <path d="M70 60 C52 60 44 80 47 96 C50 112 60 118 70 118 C80 118 90 112 93 96 C96 80 88 60 70 60 Z" fill="#eafaf1"/>
+    <!-- wings -->
+    <path class="wing wl" d="M30 70 C20 74 18 96 30 104 C34 96 34 82 34 76 Z" fill="#57b85f"/>
+    <path class="wing wr" d="M110 70 C120 74 122 96 110 104 C106 96 106 82 106 76 Z" fill="#57b85f"/>
+    <!-- ears/tufts -->
+    <path d="M44 30 l-6 -16 l16 8 Z" fill="#57b85f"/>
+    <path d="M96 30 l6 -16 l-16 8 Z" fill="#57b85f"/>
+    <!-- eyes -->
+    <circle class="eye" cx="56" cy="64" r="16" fill="#fff" stroke="#3f9a48" stroke-width="3"/>
+    <circle class="eye" cx="84" cy="64" r="16" fill="#fff" stroke="#3f9a48" stroke-width="3"/>
+    <circle class="pup" cx="58" cy="66" r="7" fill="#26384a"/>
+    <circle class="pup" cx="82" cy="66" r="7" fill="#26384a"/>
+    <circle cx="60" cy="63" r="2.4" fill="#fff"/><circle cx="84" cy="63" r="2.4" fill="#fff"/>
+    <!-- brows (hidden default, shown on sad) -->
+    <path class="brow bl hidden" d="M44 50 l22 6" stroke="#3f9a48" stroke-width="4" stroke-linecap="round"/>
+    <path class="brow br hidden" d="M96 50 l-22 6" stroke="#3f9a48" stroke-width="4" stroke-linecap="round"/>
+    <!-- beak -->
+    <path class="beak" d="M70 74 l-8 8 q8 7 16 0 Z" fill="#ffcb3d" stroke="#e8a91f" stroke-width="2"/>
+    <!-- cheeks -->
+    <circle cx="46" cy="82" r="6" fill="#ff9a8a" opacity=".55"/>
+    <circle cx="94" cy="82" r="6" fill="#ff9a8a" opacity=".55"/>
+  </svg>
+</template>
+
+<script>
+const $=(s,r=document)=>r.querySelector(s);
+const $$=(s,r=document)=>[...r.querySelectorAll(s)];
+function owl(mood){
+  const w=document.createElement("div"); w.className="owl "+(mood||"");
+  w.appendChild($("#owl-svg").content.cloneNode(true));
+  return w;
+}
+
+const PHASES=[
+  { id:0, name:"Que idade pode trabalhar?", icon:"🎂", color:"b-green",
+    q:[
+      {q:"A partir de que idade uma pessoa pode começar a trabalhar como APRENDIZ no Brasil?",
+       o:["14 anos","10 anos","18 anos"], a:0,
+       fx:"É a partir dos 14 anos, e só como aprendiz — com contrato especial e escola junto. Antes disso, nenhum trabalho é permitido.", law:"CLT · Lei da Aprendizagem"},
+      {q:"E para um emprego comum (não-aprendiz), qual é a idade mínima?",
+       o:["16 anos","12 anos","13 anos"], a:0,
+       fx:"Emprego comum é só a partir dos 16 anos. Dos 14 aos 16, apenas como aprendiz.", law:"Constituição, art. 7º, XXXIII"},
+      {q:"Verdadeiro ou falso: uma criança de 11 anos pode ter um emprego se a família precisar de dinheiro.",
+       o:["Falso — nenhuma criança pode trabalhar","Verdadeiro, se os pais deixarem"], a:0,
+       fx:"Falso! Lugar de criança é na escola e brincando. Trabalho infantil é proibido — nem a família pode autorizar.", law:"ECA · Constituição"}
+    ]},
+  { id:1, name:"O que é ser Aprendiz", icon:"🎓", color:"b-blue",
+    q:[
+      {q:"O que é um contrato de aprendizagem?",
+       o:["Trabalho + curso de formação juntos","Só trabalho, sem estudar","Um estágio sem receber nada"], a:0,
+       fx:"O aprendiz trabalha E faz um curso que ensina a profissão. Aprender é parte do combinado!", law:"Lei 10.097/00"},
+      {q:"O aprendiz tem carteira de trabalho assinada?",
+       o:["Sim, sempre","Não, aprendiz não tem direitos"], a:0,
+       fx:"Sim! O aprendiz é registrado e tem direitos garantidos, como qualquer trabalhador protegido.", law:"Lei 10.097/00"},
+      {q:"Enquanto é aprendiz, o adolescente precisa continuar estudando na escola?",
+       o:["Sim, a escola vem em primeiro lugar","Não, pode largar a escola"], a:0,
+       fx:"Sim! Se parar de estudar, perde o direito de ser aprendiz. Escola sempre em primeiro lugar.", law:"Lei 10.097/00"}
+    ]},
+  { id:2, name:"Carteira e Contrato", icon:"📄", color:"b-violet",
+    q:[
+      {q:"Por que ter a carteira de trabalho assinada é tão importante?",
+       o:["Garante seus direitos (férias, 13º, FGTS)","Serve só pra enfeitar","Não muda nada"], a:0,
+       fx:"A carteira assinada é a prova de que você tem direitos. Sem ela, fica tudo mais frágil.", law:"CLT"},
+      {q:"Trabalhar 'sem contrato, no aperto de mão' garante os seus direitos?",
+       o:["Não garante nada","Sim, se a pessoa for de confiança"], a:0,
+       fx:"Sem contrato, você fica sem proteção. Se der algum problema, não há direito garantido — nem com amizade.", law:"CLT, art. 3º"},
+      {q:"Verdadeiro ou falso: contrato de trabalho é só burocracia inútil.",
+       o:["Falso — ele protege você","Verdadeiro"], a:0,
+       fx:"Falso! O contrato existe para proteger o trabalhador e garantir o que foi combinado.", law:"CLT"}
+    ]},
+  { id:3, name:"O dinheiro dos direitos", icon:"💰", color:"b-sun",
+    q:[
+      {q:"O que é o 13º salário?",
+       o:["Um salário extra no fim do ano","Um desconto no salário","Uma multa"], a:0,
+       fx:"O 13º é um salário a mais, pago no fim do ano. É um direito de quem tem carteira assinada.", law:"Lei 4.090/62"},
+      {q:"O que são as férias remuneradas?",
+       o:["Descanso uma vez por ano, sendo pago","Ficar em casa sem receber","Trabalhar dobrado"], a:0,
+       fx:"Férias são um período de descanso por ano — e você continua recebendo. Descansar também é um direito!", law:"CLT, art. 129"},
+      {q:"O FGTS é...",
+       o:["Um dinheiro que o patrão guarda todo mês numa conta sua","Um imposto que você paga","Uma dívida"], a:0,
+       fx:"Todo mês o empregador deposita uma parte numa conta do FGTS no seu nome. É uma poupança de proteção pra você.", law:"Lei 8.036/90"}
+    ]},
+  { id:4, name:"Trabalho e Escola", icon:"📚", color:"b-green",
+    q:[
+      {q:"Para um adolescente que trabalha, o que deve vir em primeiro lugar?",
+       o:["Estudar","Ganhar o máximo de dinheiro","Trabalhar de madrugada"], a:0,
+       fx:"Estudar vem sempre primeiro. A lei protege o tempo de escola do adolescente.", law:"ECA"},
+      {q:"O aprendiz trabalha as mesmas horas por dia que um adulto?",
+       o:["Não, a jornada dele é menor","Sim, igualzinho"], a:0,
+       fx:"Não! A jornada do aprendiz é reduzida, justamente para dar tempo de estudar e crescer com saúde.", law:"Lei 10.097/00"},
+      {q:"Um trabalho pode obrigar o adolescente a faltar muito da escola?",
+       o:["Não, isso é proibido","Sim, se pagar bem"], a:0,
+       fx:"Não pode. Se o trabalho atrapalha a escola, ele está desrespeitando os direitos do adolescente.", law:"ECA · Constituição"}
+    ]},
+  { id:5, name:"Trabalho Proibido", icon:"⛔", color:"b-coral",
+    q:[
+      {q:"Um menor de 18 anos pode trabalhar à noite (das 22h às 5h)?",
+       o:["Não, é proibido","Sim, se estiver acostumado"], a:0,
+       fx:"Trabalho noturno é proibido para quem tem menos de 18 anos. A noite é hora de descanso.", law:"CLT, art. 404"},
+      {q:"E trabalho perigoso ou com produtos químicos, para menor de 18?",
+       o:["Proibido","Pode, com cuidado"], a:0,
+       fx:"Trabalhos perigosos, insalubres ou penosos são proibidos para menores de 18 anos. Sua saúde vem primeiro.", law:"Constituição, art. 7º, XXXIII"},
+      {q:"Um adolescente pode ser obrigado a carregar peso muito pesado?",
+       o:["Não, existe limite de peso","Sim, faz parte do trabalho"], a:0,
+       fx:"Não! Há limites de peso para proteger o corpo que ainda está crescendo. Carregar peso demais é proibido.", law:"Decreto 6.481/08"}
+    ]},
+  { id:6, name:"Pedir Ajuda", icon:"🆘", color:"b-blue",
+    q:[
+      {q:"Você viu uma criança sendo obrigada a trabalhar. O que fazer?",
+       o:["Denunciar (é anônimo e ajuda a criança)","Fingir que não viu","Nada, não é problema seu"], a:0,
+       fx:"Denunciar protege a criança! A denúncia pode ser anônima e ajuda de verdade.", law:"Disque 100"},
+      {q:"Qual número serve para denunciar violações contra crianças e adolescentes?",
+       o:["Disque 100","Disque 200","Não existe número"], a:0,
+       fx:"O Disque 100 recebe denúncias sobre direitos de crianças e adolescentes — de graça e sem precisar se identificar.", law:"Disque 100"},
+      {q:"Quem cuida para que os direitos do trabalhador sejam respeitados?",
+       o:["A Justiça do Trabalho e o Ministério Público do Trabalho","Ninguém","Só o próprio trabalhador"], a:0,
+       fx:"A Justiça do Trabalho, o MPT e os sindicatos existem para defender os direitos de quem trabalha.", law:"TRT · MPT"}
+    ]}
+];
+
+const KEY="trilha_direitos_save";
+let save={ unlocked:1, stars:{}, points:0 };
+try{const s=JSON.parse(localStorage.getItem(KEY)); if(s)save=Object.assign(save,s);}catch(e){}
+function persist(){try{localStorage.setItem(KEY,JSON.stringify(save));}catch(e){}}
+
+const root=$("#root");
+let cur={phase:0,qi:0,correct:0,order:[],answered:false};
+
+/* ---------- TITLE ---------- */
+function title(){
+  root.innerHTML="";
+  const s=document.createElement("div"); s.className="screen title";
+  s.innerHTML=`
+    <div class="kicker">Direitos do Trabalho · para você</div>
+    <h1>Trilha dos <span class="g">Direitos</span></h1>
+    <p>Passe pelas fases, responda os desafios e vire um expert nos seus direitos — do primeiro emprego à carteira assinada!</p>
+    <div class="play-btn"><button class="btn-3d" id="go">▶ Jogar</button></div>
+    ${save.unlocked>1||save.points>0?'<button class="small-link" id="reset">apagar meu progresso</button>':''}`;
+  root.appendChild(s);
+  s.insertBefore(owl(), s.firstChild);
+  $("#go").onclick=map;
+  const rs=$("#reset"); if(rs)rs.onclick=()=>{save={unlocked:1,stars:{},points:0};persist();title();};
+}
+
+/* ---------- MAP ---------- */
+function totalStars(){return Object.values(save.stars).reduce((a,b)=>a+b,0);}
+function map(){
+  root.innerHTML="";
+  const s=document.createElement("div"); s.className="screen";
+  const firstLocked = PHASES.findIndex(p=>p.id>=save.unlocked);
+  s.innerHTML=`
+    <div class="map-head">
+      <h2>Escolha a fase</h2>
+      <div class="scorepill"><span class="star">★</span> ${totalStars()}/${PHASES.length*3}</div>
+    </div>
+    <div class="trail">
+      <svg class="trail-line" width="120" viewBox="0 0 120 ${PHASES.length*100}" preserveAspectRatio="none">
+        <path d="${trailPath()}" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round" stroke-dasharray="2 16" opacity=".8"/>
+      </svg>
+      <div class="nodes" id="nodes"></div>
+    </div>`;
+  root.appendChild(s);
+  const nodes=$("#nodes");
+  PHASES.forEach(p=>{
+    const locked=p.id>=save.unlocked;
+    const st=save.stars[p.id]||0;
+    const isCurrent=p.id===save.unlocked-1 && st===0 || p.id===save.unlocked && !locked;
+    const n=document.createElement("div");
+    n.className="node"+(locked?" locked-node":"")+(p.id===firstUnlockedPlayable()?" current":"");
+    n.innerHTML=`
+      <div class="bubble ${locked?'locked':p.color}"><span>${p.icon}</span></div>
+      <div class="meta">
+        <div class="ph">Fase ${p.id+1}</div>
+        <div class="nm">${p.name}</div>
+        <div class="stars">${[0,1,2].map(i=>`<span class="s ${i<st?'on':''}">★</span>`).join("")}</div>
+      </div>`;
+    if(!locked) n.onclick=()=>startPhase(p.id);
+    else n.onclick=()=>wiggle(n);
+    nodes.appendChild(n);
+  });
+}
+function firstUnlockedPlayable(){
+  for(const p of PHASES){ if(p.id<save.unlocked && (save.stars[p.id]||0)<3) return p.id; }
+  return Math.min(save.unlocked, PHASES.length-1);
+}
+function trailPath(){
+  let d=`M60 20`; for(let i=1;i<PHASES.length;i++){const y=i*100+20;const x=i%2?100:20;d+=` Q60 ${y-50} ${x} ${y}`;}
+  return d;
+}
+function wiggle(n){n.animate([{transform:'translateX(0)'},{transform:'translateX(-6px)'},{transform:'translateX(6px)'},{transform:'translateX(0)'}],{duration:300});}
+
+/* ---------- QUIZ ---------- */
+function startPhase(id){
+  cur={phase:id,qi:0,correct:0,answered:false};
+  quiz();
+}
+function quiz(){
+  const p=PHASES[cur.phase]; const item=p.q[cur.qi];
+  // shuffle options, remember correct
+  const idx=item.o.map((_,i)=>i);
+  for(let i=idx.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[idx[i],idx[j]]=[idx[j],idx[i]];}
+  cur.order=idx; cur.answered=false;
+  const prog=((cur.qi)/p.q.length)*100;
+  root.innerHTML="";
+  const s=document.createElement("div"); s.className="screen";
+  s.innerHTML=`
+    <div class="qtop">
+      <button class="back" id="back">‹</button>
+      <div class="pbar"><i style="width:${prog}%"></i></div>
+      <div class="hearts" id="hearts"></div>
+    </div>
+    <div class="qbanner"><span class="ic">${p.icon}</span><div class="t">Fase ${p.id+1}<b>${p.name}</b></div></div>
+    <div class="qcard">
+      <div class="qmascot" id="qm"></div>
+      <div class="qnum">Pergunta ${cur.qi+1} de ${p.q.length}</div>
+      <div class="qtext">${item.q}</div>
+      <div class="opts" id="opts"></div>
+      <div class="feedback" id="fb"></div>
+      <div class="next-wrap hidden" id="nextwrap"><button class="btn-3d blue" id="next">Continuar ▸</button></div>
+    </div>`;
+  root.appendChild(s);
+  $("#qm").appendChild(owl());
+  const hearts=$("#hearts");
+  for(let i=0;i<p.q.length;i++) hearts.innerHTML+=`<span>${i<cur.correct?'💚':(i<cur.qi?'🩶':'🤍')}</span>`;
+  const opts=$("#opts"); const letters=["A","B","C","D"];
+  cur.order.forEach((origIndex,pos)=>{
+    const b=document.createElement("button");
+    b.className="opt"; b.innerHTML=`<span class="kbd">${letters[pos]}</span><span>${item.o[origIndex]}</span>`;
+    b.onclick=()=>answer(b,origIndex===item.a);
+    opts.appendChild(b);
+  });
+  $("#back").onclick=map;
+}
+function answer(btn,isRight){
+  if(cur.answered)return; cur.answered=true;
+  const p=PHASES[cur.phase]; const item=p.q[cur.qi];
+  $$(".opt").forEach(o=>o.disabled=true);
+  const qm=$("#qm .owl");
+  if(isRight){
+    btn.classList.add("correct"); cur.correct++;
+    save.points+=10; if(qm){qm.classList.add("happy");}
+    burst(6);
+  }else{
+    btn.classList.add("wrong");
+    // reveal the correct one
+    $$(".opt").forEach((o,pos)=>{ if(cur.order[pos]===item.a) o.classList.add("correct"); });
+    if(qm){qm.classList.add("sad"); $$(".brow",qm).forEach(b=>b.classList.remove("hidden"));}
+  }
+  $$(".opt").forEach(o=>{ if(!o.classList.contains("correct")&&!o.classList.contains("wrong")) o.classList.add("dim"); });
+  const fb=$("#fb");
+  fb.className="feedback show "+(isRight?"ok":"no");
+  fb.innerHTML=`<div class="fh">${isRight?"✅ Isso mesmo!":"💡 Quase! Veja só:"}</div>
+    <div class="fx">${item.fx}</div>${item.law?`<span class="law">📌 ${item.law}</span>`:""}`;
+  // update hearts
+  const hearts=$("#hearts"); hearts.innerHTML="";
+  for(let i=0;i<p.q.length;i++){ let ic = i<cur.correct?'💚' : (i<=cur.qi?'🩶':'🤍'); hearts.innerHTML+=`<span>${ic}</span>`; }
+  $("#nextwrap").classList.remove("hidden");
+  const last = cur.qi>=p.q.length-1;
+  $("#next").textContent = last?"Ver resultado ▸":"Continuar ▸";
+  $("#next").onclick=()=>{ if(last){phaseResult();} else {cur.qi++;quiz();} };
+}
+
+/* ---------- PHASE RESULT ---------- */
+function phaseResult(){
+  const p=PHASES[cur.phase];
+  const total=p.q.length; const got=cur.correct;
+  let stars = got===total?3 : got>=Math.ceil(total*0.6)?2 : got>=1?1:0;
+  if(got===0)stars=0;
+  const prev=save.stars[p.id]||0;
+  if(stars>prev)save.stars[p.id]=stars;
+  // unlocked = how many phases are open (ids 0..unlocked-1). Clearing phase p.id
+  // with at least 1 star opens the next one, so unlocked must reach p.id+2.
+  if(stars>=1) save.unlocked=Math.min(PHASES.length, Math.max(save.unlocked, p.id+2));
+  persist();
+  if(stars>=2) bigConfetti();
+  const allDone = PHASES.every(ph=>(save.stars[ph.id]||0)>=1);
+  root.innerHTML="";
+  const s=document.createElement("div"); s.className="screen result";
+  const msgs=["Continue tentando — cada erro ensina!","Muito bem! Já sabe bastante.","Excelente! Você mandou muito bem!","PERFEITO! Você é um expert nessa fase! 🌟"];
+  s.innerHTML=`
+    <h2>${stars>=2?"Fase concluída!":"Boa tentativa!"}</h2>
+    <div class="big-stars">${[0,1,2].map(i=>`<span class="bs ${i<stars?'on':''}">★</span>`).join("")}</div>
+    <div class="rscore">✅ ${got} de ${total} certas · +${got*10} pontos</div>
+    <p class="msg">${msgs[stars]}</p>
+    <div class="actions">
+      <button class="btn-3d ghost" id="retry">↻ Refazer</button>
+      ${allDone?'<button class="btn-3d sun" id="cert">🏆 Meu diploma</button>':`<button class="btn-3d" id="cont">${cur.phase<PHASES.length-1?'Próxima fase ▸':'Ver mapa ▸'}</button>`}
+    </div>
+    <button class="small-link" id="tomap">voltar ao mapa</button>`;
+  root.appendChild(s);
+  s.insertBefore(owl(stars>=2?"happy":""), s.firstChild);
+  $("#retry").onclick=()=>startPhase(p.id);
+  $("#tomap").onclick=map;
+  const cont=$("#cont"); if(cont)cont.onclick=()=>{ if(cur.phase<PHASES.length-1 && (save.unlocked>cur.phase+1||stars>=1)){startPhase(cur.phase+1);} else {map();} };
+  const cert=$("#cert"); if(cert)cert.onclick=finalCert;
+}
+
+/* ---------- FINAL ---------- */
+function finalCert(){
+  bigConfetti();
+  root.innerHTML="";
+  const s=document.createElement("div"); s.className="screen";
+  s.innerHTML=`
+    <div class="cert">
+      <div class="seal">🏆</div>
+      <h2>Diploma dos Direitos</h2>
+      <p>Este certificado reconhece que</p>
+      <div class="name">você concluiu a Trilha dos Direitos!</div>
+      <p>Agora você conhece os seus direitos no trabalho e na aprendizagem:</p>
+      <ul>
+        <li>Só se trabalha a partir dos 14 (aprendiz) ou 16 anos</li>
+        <li>Carteira assinada e contrato protegem você</li>
+        <li>13º, férias e FGTS são direitos seus</li>
+        <li>Estudar sempre vem primeiro</li>
+        <li>Trabalho noturno e perigoso é proibido pra menor de 18</li>
+        <li>Disque 100 para denunciar e proteger</li>
+      </ul>
+      <div class="actions" style="display:flex;gap:10px;justify-content:center;margin-top:20px;flex-wrap:wrap">
+        <button class="btn-3d ghost" id="tomap2">Voltar ao mapa</button>
+        <button class="btn-3d sun" id="again">Jogar de novo</button>
+      </div>
+    </div>`;
+  root.appendChild(s);
+  $("#tomap2").onclick=map;
+  $("#again").onclick=title;
+}
+
+/* ---------- confetti ---------- */
+function burst(n){
+  const box=$("#confetti"); box.classList.remove("hidden");
+  const cols=["#ffcb3d","#57b85f","#3d8bd4","#ff6b5e","#8a6cf0"];
+  for(let i=0;i<n;i++){
+    const p=document.createElement("i");
+    p.style.left=(40+Math.random()*20)+"%"; p.style.background=cols[i%cols.length];
+    p.style.animationDuration=(1+Math.random()*.8)+"s"; p.style.top="30%";
+    box.appendChild(p); setTimeout(()=>p.remove(),1800);
+  }
+}
+function bigConfetti(){
+  const box=$("#confetti"); box.classList.remove("hidden");
+  const cols=["#ffcb3d","#57b85f","#3d8bd4","#ff6b5e","#8a6cf0"];
+  for(let i=0;i<60;i++){
+    const p=document.createElement("i");
+    p.style.left=Math.random()*100+"%"; p.style.background=cols[i%cols.length];
+    p.style.animationDuration=(1.6+Math.random()*1.6)+"s"; p.style.animationDelay=(Math.random()*.4)+"s";
+    box.appendChild(p); setTimeout(()=>p.remove(),3600);
+  }
+}
+
+title();
+</script>
