@@ -32,6 +32,9 @@ Bem-vindo! Você foi convidado a continuar o desenvolvimento do **Sou CLT** — 
    O que funcionou, o que não funcionou
    Erros que não devem ser repetidos
 
+### 7. **docs/PARECER-TECNICO-PRE-VALIDACAO.md**
+   Auditoria documental, riscos residuais e termo para aprovação formal do TRT
+
 ---
 
 ## 🚀 Comece Agora (5 min)
@@ -63,8 +66,9 @@ Abrir: http://localhost:8000/trilha-dos-direitos.html
 Os documentos de continuidade estão em `/docs/`:
 - **CONTEXT.md** — histórico recuperado e lacunas identificadas
 - **DESENVOLVIMENTO.md** — guia prático
-- **VALIDACAO-JURIDICA.md** — matriz das 21 perguntas, pendente de revisão especializada
+- **VALIDACAO-JURIDICA.md** — matriz das 24 perguntas, pendente de revisão especializada
 - **MEMORIA.md** — decisões, feedback disponível e cuidados para continuidade
+- **PARECER-TECNICO-PRE-VALIDACAO.md** — pré-validação e formulário de aprovação institucional
 
 Informações da conversa original que não puderam ser verificadas estão marcadas como **“A confirmar com o usuário”**.
 
@@ -74,7 +78,7 @@ Informações da conversa original que não puderam ser verificadas estão marca
 
 Um **jogo de fases com quiz** onde crianças aprendem direitos CLT respondendo perguntas corretas e erradas, vendo a lei citada.
 
-**7 fases** × **3 perguntas** = **21 perguntas** sobre:
+**8 fases** × **3 perguntas** = **24 perguntas** sobre:
 1. Idade mínima para trabalhar
 2. Lei da Aprendizagem (10.097)
 3. Contrato e carteira
@@ -82,6 +86,7 @@ Um **jogo de fases com quiz** onde crianças aprendem direitos CLT respondendo p
 5. Trabalho vs Escola
 6. Trabalho proibido <18 anos
 7. Onde pedir ajuda
+8. O que é trabalhar protegido e quando não trabalhar
 
 **Mecânica**:
 - Mascote coruja que reage 😊 / 😢

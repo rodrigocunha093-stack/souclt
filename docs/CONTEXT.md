@@ -20,12 +20,13 @@ Restrições de produto já registradas:
 | 22/07/2026 | commit `8f34d84` | Inclusão do protótipo funcional `game/trilha-dos-direitos.html`. |
 | 22/07/2026 | commit `eb0d374` | Inclusão de `README.md` e `COMECE-AQUI.md`. |
 | 22/07/2026 | README e instruções do usuário | Estado declarado como protótipo v1.0, com 7 fases, 21 perguntas e playthrough 21/21 concluído sem erros. |
+| 22/07/2026 | Solicitação da cliente e evolução local | Inclusão do eixo “trabalho protegido”, nova fase sobre quando não trabalhar e expansão para 8 fases e 24 perguntas. |
 
 ## Abordagens e decisões
 
 ### Jogo de fases com quiz
 
-**Confirmado pelo código e pelo README.** A versão atual usa sete fases progressivas, três perguntas por fase, respostas embaralhadas, feedback educativo, estrelas, diploma e persistência no `localStorage`.
+**Confirmado pelo código e pelo README.** A versão atual usa oito fases progressivas, três perguntas por fase, respostas embaralhadas, feedback educativo, estrelas, diploma, perfis competitivos e persistência no `localStorage`.
 
 ### Visual novel “O Primeiro Contrato”
 
@@ -35,13 +36,20 @@ Restrições de produto já registradas:
 
 O protótipo é um único arquivo HTML, sem dependências externas. CSS, marcação, template SVG da coruja, conteúdo das fases e lógica JavaScript estão reunidos em `game/trilha-dos-direitos.html`.
 
-O estado persistido usa a chave `trilha_direitos_save` e o formato aproximado:
+Desde a evolução competitiva, o estado persistido usa a chave `trilha_direitos_competicao_v2` e separa os dados por jogador:
 
 ```js
 {
-  unlocked: 1,
-  stars: {},
-  points: 0
+  activePlayerId: "p_...",
+  players: [{
+    name: "Ana",
+    avatar: "🐼",
+    unlocked: 1,
+    stars: {},
+    bestCorrects: {},
+    points: 0,
+    elapsedMs: 0
+  }]
 }
 ```
 
@@ -74,7 +82,8 @@ As instruções fornecidas mencionam três bugs. O repositório contém apenas a
 
 | Teste | Estado | Evidência |
 |---|---|---|
-| Playthrough completo 21/21 | ✅ Declarado como concluído | README e relato do usuário. Não há teste automatizado ou gravação anexada. |
+| Playthrough original 21/21 | ✅ Declarado como concluído | README e relato do usuário sobre a versão de 7 fases. |
+| Playthrough atual 24/24 | ✅ Automatizado | Suíte Playwright local cobre as 8 fases, diploma e persistência. |
 | Persistência via `localStorage` | ✅ Implementada | Funções de leitura e `persist()` presentes no código. |
 | Responsividade | ⏳ Pendente de evidência | Há CSS responsivo, mas não existe relatório com dispositivos, resoluções ou navegadores. |
 | Acessibilidade | ⏳ Pendente | Não há auditoria registrada. |
@@ -87,10 +96,9 @@ O projeto é um **protótipo v1.0 funcional, pronto para validação especializa
 
 Pendências prioritárias:
 
-1. revisão das 21 perguntas por especialista do TRT;
+1. revisão das 24 perguntas por especialista do TRT;
 2. correção das formulações apontadas em `VALIDACAO-JURIDICA.md`;
 3. recuperação da conversa original para completar datas e feedback literal;
 4. testes de usabilidade com participantes de 10 a 18 anos, com desenho ético e consentimentos adequados;
 5. teste de navegadores, responsividade e acessibilidade;
 6. decisão e configuração de deploy após as validações.
-
