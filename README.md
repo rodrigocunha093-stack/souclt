@@ -29,6 +29,8 @@
 - ✅ Sistema de estrelas (máx 24)
 - ✅ Jogadores identificados por nome e personagem
 - ✅ Progresso independente por jogador
+- ✅ Encerramento antecipado sem apagar fases e recordes já conquistados
+- ✅ Missões temáticas, tesouros, etapas visuais e celebrações durante as fases
 - ✅ Ranking local por estrelas, pontos e tempo
 - ✅ Recordes persistentes no navegador (localStorage)
 - ✅ Diploma final

@@ -1,3 +1,10 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#8fd0ef">
+<meta name="description" content="Jogo educativo sobre direitos do trabalho para crianÃ§as e adolescentes.">
 <title>Trilha dos Direitos â€” Jogo de Fases</title>
 <style>
 :root{
@@ -14,6 +21,7 @@
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%}
+button:focus-visible,[role="button"]:focus-visible{outline:4px solid #26384a;outline-offset:4px}
 body{
   font-family:var(--font);color:var(--ink);
   background:linear-gradient(180deg,var(--sky1) 0%,var(--sky2) 40%,var(--sky3) 100%);
@@ -63,6 +71,17 @@ body{
 .btn-3d.blue{background:var(--blue);box-shadow:0 5px 0 var(--blue-d)}
 .btn-3d.ghost{background:#fff;color:var(--ink);box-shadow:0 5px 0 var(--edge)}
 .small-link{margin-top:14px;font-size:13px;color:var(--ink-soft);cursor:pointer;font-weight:700;text-decoration:underline;background:none;border:none;font-family:var(--font)}
+
+/* ---------- players and ranking ---------- */
+.player-card,.setup-card,.ranking-card{background:#fff;border-radius:22px;padding:18px;box-shadow:0 12px 30px -14px var(--shadow)}
+.player-card{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;margin:12px 0 2px;text-align:left}
+.player-id{display:flex;align-items:center;gap:10px;min-width:0}.player-avatar{font-size:36px;line-height:1}.player-id strong{display:block;font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.player-id small{color:var(--ink-soft);font-weight:700}
+.title-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:16px}.title-actions .btn-3d{font-size:16px;padding:12px 18px}
+.setup{justify-content:center;gap:14px}.setup h1,.ranking h1{font-size:30px;font-weight:900}.setup-card label{display:block;font-weight:900;margin-bottom:7px}.name-input{width:100%;border:2px solid var(--edge);border-radius:14px;padding:13px 14px;font:700 17px var(--font);color:var(--ink)}.name-input:focus{border-color:var(--blue);outline:3px solid rgba(61,139,212,.2)}
+.avatar-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0 18px}.avatar-option{border:2px solid var(--edge);background:var(--cream);border-radius:16px;padding:10px;cursor:pointer;font-size:34px;min-height:60px}.avatar-option.selected{border-color:var(--blue);background:#e8f3ff;box-shadow:0 0 0 3px rgba(61,139,212,.18)}
+.form-error{min-height:20px;color:var(--coral-d);font-weight:800;font-size:13px;margin-top:6px}.setup-actions{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+.ranking{gap:14px}.ranking-head{display:flex;justify-content:space-between;align-items:center;gap:12px}.ranking-list{display:flex;flex-direction:column;gap:9px}.rank-row{display:grid;grid-template-columns:38px 1fr auto;align-items:center;gap:10px;background:var(--cream);border:2px solid var(--edge);border-radius:15px;padding:10px}.rank-row.active{border-color:var(--blue);background:#e8f3ff}.rank-pos{font-size:20px;font-weight:900;text-align:center}.rank-person{display:flex;align-items:center;gap:9px;min-width:0}.rank-person span{font-size:27px}.rank-person strong{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.rank-score{text-align:right;font-size:12px;font-weight:800;color:var(--ink-soft)}.rank-score b{display:block;font-size:15px;color:var(--ink)}.empty-rank{text-align:center;color:var(--ink-soft);padding:24px 8px;font-weight:700}
+.player-badge{display:flex;align-items:center;gap:7px;background:#fff;border-radius:999px;padding:6px 10px;font-size:13px;font-weight:900;box-shadow:0 3px 8px -3px var(--shadow)}.player-badge span{font-size:21px}
 
 /* ---------- map ---------- */
 .map-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
@@ -126,410 +145,10 @@ body{
 .feedback{margin-top:14px;border-radius:16px;padding:14px 15px;display:none;animation:pop .35s ease}
 .feedback.show{display:block}
 .feedback.ok{background:#e5f7e6;border:2px solid var(--grass)}
-.feedback.no{background:#fff2ea;border:2px solid var(--sun-d)}
-.feedback .fh{display:flex;align-items:center;gap:8px;font-weight:900;font-size:15px;margin-bottom:5px}
-.feedback.ok .fh{color:var(--grass-d)}.feedback.no .fh{color:var(--sun-d)}
-.feedback .fx{font-size:14px;line-height:1.5;font-weight:500;color:var(--ink)}
-.feedback .law{margin-top:8px;font-size:11.5px;font-weight:800;color:var(--ink-soft);background:rgba(38,56,74,.06);display:inline-block;padding:3px 9px;border-radius:7px}
-.next-wrap{display:flex;justify-content:flex-end;margin-top:14px}
-
-.qmascot{position:absolute;right:12px;top:-46px;width:64px;z-index:2}
-.qmascot .owl{width:64px;animation:none}
-
-/* ---------- phase result ---------- */
-.result{align-items:center;justify-content:center;text-align:center;gap:4px}
-.result .owl{width:130px}
-.result h2{font-size:28px;font-weight:900;margin-top:6px}
-.result .big-stars{display:flex;gap:10px;justify-content:center;margin:14px 0}
-.result .big-stars .bs{font-size:52px;color:#d3dbe2;transform:scale(0);animation:starpop .5s cubic-bezier(.2,1.5,.4,1) forwards}
-.result .big-stars .bs.on{color:var(--sun-d)}
-.result .big-stars .bs:nth-child(2){animation-delay:.15s}
-.result .big-stars .bs:nth-child(3){animation-delay:.3s}
-@keyframes starpop{to{transform:scale(1)}}
-.result .msg{font-size:16px;color:var(--ink-soft);font-weight:600;max-width:320px;line-height:1.5}
-.result .rscore{font-weight:900;font-size:15px;background:#fff;border-radius:999px;padding:8px 16px;box-shadow:0 4px 10px -5px var(--shadow);margin-top:6px}
-.result .actions{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap;justify-content:center}
-
-/* ---------- final ---------- */
-.cert{background:#fff;border-radius:22px;padding:26px 22px;text-align:center;box-shadow:0 16px 40px -18px var(--shadow);border:3px solid var(--sun)}
-.cert .seal{font-size:56px}
-.cert h2{font-size:26px;font-weight:900;margin:6px 0}
-.cert p{font-size:15px;color:var(--ink-soft);line-height:1.55;font-weight:500}
-.cert .name{font-weight:900;color:var(--grass-d);font-size:18px;margin:8px 0}
-.cert ul{text-align:left;margin:14px auto 0;max-width:360px;list-style:none;display:flex;flex-direction:column;gap:7px}
-.cert ul li{font-size:13.5px;font-weight:600;padding-left:26px;position:relative;line-height:1.4}
-.cert ul li::before{content:"ğŸ…";position:absolute;left:0}
-
-/* confetti */
-.confetti{position:fixed;inset:0;pointer-events:none;z-index:50;overflow:hidden}
-.confetti i{position:absolute;width:9px;height:14px;top:-20px;border-radius:2px;animation:fall linear forwards}
-@keyframes fall{to{transform:translateY(105vh) rotate(720deg)}}
-
-.hidden{display:none!important}
-@media (prefers-reduced-motion:reduce){*{animation-duration:.01s!important}}
-</style>
-
-<div class="cloud c1"></div>
-<div class="cloud c2"></div>
-<div class="app"><div id="root"></div></div>
-<div class="confetti hidden" id="confetti"></div>
-
-<template id="owl-svg">
-  <svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
-    <ellipse cx="70" cy="132" rx="40" ry="6" fill="rgba(38,56,74,.14)"/>
-    <!-- feet -->
-    <path d="M56 116 l-5 12 M62 118 l0 12 M60 118 l6 11" stroke="#e8a91f" stroke-width="4" stroke-linecap="round"/>
-    <path d="M84 116 l5 12 M78 118 l0 12 M80 118 l-6 11" stroke="#e8a91f" stroke-width="4" stroke-linecap="round"/>
-    <!-- body -->
-    <path d="M70 24 C34 24 26 58 30 84 C34 112 54 122 70 122 C86 122 106 112 110 84 C114 58 106 24 70 24 Z" fill="#6fbf74"/>
-    <path d="M70 60 C52 60 44 80 47 96 C50 112 60 118 70 118 C80 118 90 112 93 96 C96 80 88 60 70 60 Z" fill="#eafaf1"/>
-    <!-- wings -->
-    <path class="wing wl" d="M30 70 C20 74 18 96 30 104 C34 96 34 82 34 76 Z" fill="#57b85f"/>
-    <path class="wing wr" d="M110 70 C120 74 122 96 110 104 C106 96 106 82 106 76 Z" fill="#57b85f"/>
-    <!-- ears/tufts -->
-    <path d="M44 30 l-6 -16 l16 8 Z" fill="#57b85f"/>
-    <path d="M96 30 l6 -16 l-16 8 Z" fill="#57b85f"/>
-    <!-- eyes -->
-    <circle class="eye" cx="56" cy="64" r="16" fill="#fff" stroke="#3f9a48" stroke-width="3"/>
-    <circle class="eye" cx="84" cy="64" r="16" fill="#fff" stroke="#3f9a48" stroke-width="3"/>
-    <circle class="pup" cx="58" cy="66" r="7" fill="#26384a"/>
-    <circle class="pup" cx="82" cy="66" r="7" fill="#26384a"/>
-    <circle cx="60" cy="63" r="2.4" fill="#fff"/><circle cx="84" cy="63" r="2.4" fill="#fff"/>
-    <!-- brows (hidden default, shown on sad) -->
-    <path class="brow bl hidden" d="M44 50 l22 6" stroke="#3f9a48" stroke-width="4" stroke-linecap="round"/>
-    <path class="brow br hidden" d="M96 50 l-22 6" stroke="#3f9a48" stroke-width="4" stroke-linecap="round"/>
-    <!-- beak -->
-    <path class="beak" d="M70 74 l-8 8 q8 7 16 0 Z" fill="#ffcb3d" stroke="#e8a91f" stroke-width="2"/>
-    <!-- cheeks -->
-    <circle cx="46" cy="82" r="6" fill="#ff9a8a" opacity=".55"/>
-    <circle cx="94" cy="82" r="6" fill="#ff9a8a" opacity=".55"/>
-  </svg>
-</template>
-
-<script>
-const $=(s,r=document)=>r.querySelector(s);
-const $$=(s,r=document)=>[...r.querySelectorAll(s)];
-function owl(mood){
-  const w=document.createElement("div"); w.className="owl "+(mood||"");
-  w.appendChild($("#owl-svg").content.cloneNode(true));
-  return w;
-}
-
-const PHASES=[
-  { id:0, name:"Que idade pode trabalhar?", icon:"ğŸ‚", color:"b-green",
-    q:[
-      {q:"A partir de que idade uma pessoa pode comeÃ§ar a trabalhar como APRENDIZ no Brasil?",
-       o:["14 anos","10 anos","18 anos"], a:0,
-       fx:"Ã‰ a partir dos 14 anos, e sÃ³ como aprendiz â€” com contrato especial e escola junto. Antes disso, nenhum trabalho Ã© permitido.", law:"CLT Â· Lei da Aprendizagem"},
-      {q:"E para um emprego comum (nÃ£o-aprendiz), qual Ã© a idade mÃ­nima?",
-       o:["16 anos","12 anos","13 anos"], a:0,
-       fx:"Emprego comum Ã© sÃ³ a partir dos 16 anos. Dos 14 aos 16, apenas como aprendiz.", law:"ConstituiÃ§Ã£o, art. 7Âº, XXXIII"},
-      {q:"Verdadeiro ou falso: uma crianÃ§a de 11 anos pode ter um emprego se a famÃ­lia precisar de dinheiro.",
-       o:["Falso â€” nenhuma crianÃ§a pode trabalhar","Verdadeiro, se os pais deixarem"], a:0,
-       fx:"Falso! Lugar de crianÃ§a Ã© na escola e brincando. Trabalho infantil Ã© proibido â€” nem a famÃ­lia pode autorizar.", law:"ECA Â· ConstituiÃ§Ã£o"}
-    ]},
-  { id:1, name:"O que Ã© ser Aprendiz", icon:"ğŸ“", color:"b-blue",
-    q:[
-      {q:"O que Ã© um contrato de aprendizagem?",
-       o:["Trabalho + curso de formaÃ§Ã£o juntos","SÃ³ trabalho, sem estudar","Um estÃ¡gio sem receber nada"], a:0,
-       fx:"O aprendiz trabalha E faz um curso que ensina a profissÃ£o. Aprender Ã© parte do combinado!", law:"Lei 10.097/00"},
-      {q:"O aprendiz tem carteira de trabalho assinada?",
-       o:["Sim, sempre","NÃ£o, aprendiz nÃ£o tem direitos"], a:0,
-       fx:"Sim! O aprendiz Ã© registrado e tem direitos garantidos, como qualquer trabalhador protegido.", law:"Lei 10.097/00"},
-      {q:"Enquanto Ã© aprendiz, o adolescente precisa continuar estudando na escola?",
-       o:["Sim, a escola vem em primeiro lugar","NÃ£o, pode largar a escola"], a:0,
-       fx:"Sim! Se parar de estudar, perde o direito de ser aprendiz. Escola sempre em primeiro lugar.", law:"Lei 10.097/00"}
-    ]},
-  { id:2, name:"Carteira e Contrato", icon:"ğŸ“„", color:"b-violet",
-    q:[
-      {q:"Por que ter a carteira de trabalho assinada Ã© tÃ£o importante?",
-       o:["Garante seus direitos (fÃ©rias, 13Âº, FGTS)","Serve sÃ³ pra enfeitar","NÃ£o muda nada"], a:0,
-       fx:"A carteira assinada Ã© a prova de que vocÃª tem direitos. Sem ela, fica tudo mais frÃ¡gil.", law:"CLT"},
-      {q:"Trabalhar 'sem contrato, no aperto de mÃ£o' garante os seus direitos?",
-       o:["NÃ£o garante nada","Sim, se a pessoa for de confianÃ§a"], a:0,
-       fx:"Sem contrato, vocÃª fica sem proteÃ§Ã£o. Se der algum problema, nÃ£o hÃ¡ direito garantido â€” nem com amizade.", law:"CLT, art. 3Âº"},
-      {q:"Verdadeiro ou falso: contrato de trabalho Ã© sÃ³ burocracia inÃºtil.",
-       o:["Falso â€” ele protege vocÃª","Verdadeiro"], a:0,
-       fx:"Falso! O contrato existe para proteger o trabalhador e garantir o que foi combinado.", law:"CLT"}
-    ]},
-  { id:3, name:"O dinheiro dos direitos", icon:"ğŸ’°", color:"b-sun",
-    q:[
-      {q:"O que Ã© o 13Âº salÃ¡rio?",
-       o:["Um salÃ¡rio extra no fim do ano","Um desconto no salÃ¡rio","Uma multa"], a:0,
-       fx:"O 13Âº Ã© um salÃ¡rio a mais, pago no fim do ano. Ã‰ um direito de quem tem carteira assinada.", law:"Lei 4.090/62"},
-      {q:"O que sÃ£o as fÃ©rias remuneradas?",
-       o:["Descanso uma vez por ano, sendo pago","Ficar em casa sem receber","Trabalhar dobrado"], a:0,
-       fx:"FÃ©rias sÃ£o um perÃ­odo de descanso por ano â€” e vocÃª continua recebendo. Descansar tambÃ©m Ã© um direito!", law:"CLT, art. 129"},
-      {q:"O FGTS Ã©...",
-       o:["Um dinheiro que o patrÃ£o guarda todo mÃªs numa conta sua","Um imposto que vocÃª paga","Uma dÃ­vida"], a:0,
-       fx:"Todo mÃªs o empregador deposita uma parte numa conta do FGTS no seu nome. Ã‰ uma poupanÃ§a de proteÃ§Ã£o pra vocÃª.", law:"Lei 8.036/90"}
-    ]},
-  { id:4, name:"Trabalho e Escola", icon:"ğŸ“š", color:"b-green",
-    q:[
-      {q:"Para um adolescente que trabalha, o que deve vir em primeiro lugar?",
-       o:["Estudar","Ganhar o mÃ¡ximo de dinheiro","Trabalhar de madrugada"], a:0,
-       fx:"Estudar vem sempre primeiro. A lei protege o tempo de escola do adolescente.", law:"ECA"},
-      {q:"O aprendiz trabalha as mesmas horas por dia que um adulto?",
-       o:["NÃ£o, a jornada dele Ã© menor","Sim, igualzinho"], a:0,
-       fx:"NÃ£o! A jornada do aprendiz Ã© reduzida, justamente para dar tempo de estudar e crescer com saÃºde.", law:"Lei 10.097/00"},
-      {q:"Um trabalho pode obrigar o adolescente a faltar muito da escola?",
-       o:["NÃ£o, isso Ã© proibido","Sim, se pagar bem"], a:0,
-       fx:"NÃ£o pode. Se o trabalho atrapalha a escola, ele estÃ¡ desrespeitando os direitos do adolescente.", law:"ECA Â· ConstituiÃ§Ã£o"}
-    ]},
-  { id:5, name:"Trabalho Proibido", icon:"â›”", color:"b-coral",
-    q:[
-      {q:"Um menor de 18 anos pode trabalhar Ã  noite (das 22h Ã s 5h)?",
-       o:["NÃ£o, Ã© proibido","Sim, se estiver acostumado"], a:0,
-       fx:"Trabalho noturno Ã© proibido para quem tem menos de 18 anos. A noite Ã© hora de descanso.", law:"CLT, art. 404"},
-      {q:"E trabalho perigoso ou com produtos quÃ­micos, para menor de 18?",
-       o:["Proibido","Pode, com cuidado"], a:0,
-       fx:"Trabalhos perigosos, insalubres ou penosos sÃ£o proibidos para menores de 18 anos. Sua saÃºde vem primeiro.", law:"ConstituiÃ§Ã£o, art. 7Âº, XXXIII"},
-      {q:"Um adolescente pode ser obrigado a carregar peso muito pesado?",
-       o:["NÃ£o, existe limite de peso","Sim, faz parte do trabalho"], a:0,
-       fx:"NÃ£o! HÃ¡ limites de peso para proteger o corpo que ainda estÃ¡ crescendo. Carregar peso demais Ã© proibido.", law:"Decreto 6.481/08"}
-    ]},
-  { id:6, name:"Pedir Ajuda", icon:"ğŸ†˜", color:"b-blue",
-    q:[
-      {q:"VocÃª viu uma crianÃ§a sendo obrigada a trabalhar. O que fazer?",
-       o:["Denunciar (Ã© anÃ´nimo e ajuda a crianÃ§a)","Fingir que nÃ£o viu","Nada, nÃ£o Ã© problema seu"], a:0,
-       fx:"Denunciar protege a crianÃ§a! A denÃºncia pode ser anÃ´nima e ajuda de verdade.", law:"Disque 100"},
-      {q:"Qual nÃºmero serve para denunciar violaÃ§Ãµes contra crianÃ§as e adolescentes?",
-       o:["Disque 100","Disque 200","NÃ£o existe nÃºmero"], a:0,
-       fx:"O Disque 100 recebe denÃºncias sobre direitos de crianÃ§as e adolescentes â€” de graÃ§a e sem precisar se identificar.", law:"Disque 100"},
-      {q:"Quem cuida para que os direitos do trabalhador sejam respeitados?",
-       o:["A JustiÃ§a do Trabalho e o MinistÃ©rio PÃºblico do Trabalho","NinguÃ©m","SÃ³ o prÃ³prio trabalhador"], a:0,
-       fx:"A JustiÃ§a do Trabalho, o MPT e os sindicatos existem para defender os direitos de quem trabalha.", law:"TRT Â· MPT"}
-    ]}
-];
-
-const KEY="trilha_direitos_save";
-let save={ unlocked:1, stars:{}, points:0 };
-try{const s=JSON.parse(localStorage.getItem(KEY)); if(s)save=Object.assign(save,s);}catch(e){}
-function persist(){try{localStorage.setItem(KEY,JSON.stringify(save));}catch(e){}}
-
-const root=$("#root");
-let cur={phase:0,qi:0,correct:0,order:[],answered:false};
-
-/* ---------- TITLE ---------- */
-function title(){
-  root.innerHTML="";
-  const s=document.createElement("div"); s.className="screen title";
-  s.innerHTML=`
-    <div class="kicker">Direitos do Trabalho Â· para vocÃª</div>
-    <h1>Trilha dos <span class="g">Direitos</span></h1>
-    <p>Passe pelas fases, responda os desafios e vire um expert nos seus direitos â€” do primeiro emprego Ã  carteira assinada!</p>
-    <div class="play-btn"><button class="btn-3d" id="go">â–¶ Jogar</button></div>
-    ${save.unlocked>1||save.points>0?'<button class="small-link" id="reset">apagar meu progresso</button>':''}`;
-  root.appendChild(s);
-  s.insertBefore(owl(), s.firstChild);
-  $("#go").onclick=map;
-  const rs=$("#reset"); if(rs)rs.onclick=()=>{save={unlocked:1,stars:{},points:0};persist();title();};
-}
-
-/* ---------- MAP ---------- */
-function totalStars(){return Object.values(save.stars).reduce((a,b)=>a+b,0);}
-function map(){
-  root.innerHTML="";
-  const s=document.createElement("div"); s.className="screen";
-  const firstLocked = PHASES.findIndex(p=>p.id>=save.unlocked);
-  s.innerHTML=`
-    <div class="map-head">
-      <h2>Escolha a fase</h2>
-      <div class="scorepill"><span class="star">â˜…</span> ${totalStars()}/${PHASES.length*3}</div>
-    </div>
-    <div class="trail">
-      <svg class="trail-line" width="120" viewBox="0 0 120 ${PHASES.length*100}" preserveAspectRatio="none">
-        <path d="${trailPath()}" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round" stroke-dasharray="2 16" opacity=".8"/>
-      </svg>
-      <div class="nodes" id="nodes"></div>
-    </div>`;
-  root.appendChild(s);
-  const nodes=$("#nodes");
-  PHASES.forEach(p=>{
-    const locked=p.id>=save.unlocked;
-    const st=save.stars[p.id]||0;
-    const isCurrent=p.id===save.unlocked-1 && st===0 || p.id===save.unlocked && !locked;
-    const n=document.createElement("div");
-    n.className="node"+(locked?" locked-node":"")+(p.id===firstUnlockedPlayable()?" current":"");
-    n.innerHTML=`
-      <div class="bubble ${locked?'locked':p.color}"><span>${p.icon}</span></div>
-      <div class="meta">
-        <div class="ph">Fase ${p.id+1}</div>
-        <div class="nm">${p.name}</div>
-        <div class="stars">${[0,1,2].map(i=>`<span class="s ${i<st?'on':''}">â˜…</span>`).join("")}</div>
-      </div>`;
-    if(!locked) n.onclick=()=>startPhase(p.id);
-    else n.onclick=()=>wiggle(n);
-    nodes.appendChild(n);
-  });
-}
-function firstUnlockedPlayable(){
-  for(const p of PHASES){ if(p.id<save.unlocked && (save.stars[p.id]||0)<3) return p.id; }
-  return Math.min(save.unlocked, PHASES.length-1);
-}
-function trailPath(){
-  let d=`M60 20`; for(let i=1;i<PHASES.length;i++){const y=i*100+20;const x=i%2?100:20;d+=` Q60 ${y-50} ${x} ${y}`;}
-  return d;
-}
-function wiggle(n){n.animate([{transform:'translateX(0)'},{transform:'translateX(-6px)'},{transform:'translateX(6px)'},{transform:'translateX(0)'}],{duration:300});}
-
-/* ---------- QUIZ ---------- */
-function startPhase(id){
-  cur={phase:id,qi:0,correct:0,answered:false};
-  quiz();
-}
-function quiz(){
-  const p=PHASES[cur.phase]; const item=p.q[cur.qi];
-  // shuffle options, remember correct
-  const idx=item.o.map((_,i)=>i);
-  for(let i=idx.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[idx[i],idx[j]]=[idx[j],idx[i]];}
-  cur.order=idx; cur.answered=false;
-  const prog=((cur.qi)/p.q.length)*100;
-  root.innerHTML="";
-  const s=document.createElement("div"); s.className="screen";
-  s.innerHTML=`
-    <div class="qtop">
-      <button class="back" id="back">â€¹</button>
-      <div class="pbar"><i style="width:${prog}%"></i></div>
-      <div class="hearts" id="hearts"></div>
-    </div>
-    <div class="qbanner"><span class="ic">${p.icon}</span><div class="t">Fase ${p.id+1}<b>${p.name}</b></div></div>
-    <div class="qcard">
-      <div class="qmascot" id="qm"></div>
-      <div class="qnum">Pergunta ${cur.qi+1} de ${p.q.length}</div>
-      <div class="qtext">${item.q}</div>
-      <div class="opts" id="opts"></div>
-      <div class="feedback" id="fb"></div>
-      <div class="next-wrap hidden" id="nextwrap"><button class="btn-3d blue" id="next">Continuar â–¸</button></div>
-    </div>`;
-  root.appendChild(s);
-  $("#qm").appendChild(owl());
-  const hearts=$("#hearts");
-  for(let i=0;i<p.q.length;i++) hearts.innerHTML+=`<span>${i<cur.correct?'ğŸ’š':(i<cur.qi?'ğŸ©¶':'ğŸ¤')}</span>`;
-  const opts=$("#opts"); const letters=["A","B","C","D"];
-  cur.order.forEach((origIndex,pos)=>{
-    const b=document.createElement("button");
-    b.className="opt"; b.innerHTML=`<span class="kbd">${letters[pos]}</span><span>${item.o[origIndex]}</span>`;
-    b.onclick=()=>answer(b,origIndex===item.a);
-    opts.appendChild(b);
-  });
-  $("#back").onclick=map;
-}
-function answer(btn,isRight){
-  if(cur.answered)return; cur.answered=true;
-  const p=PHASES[cur.phase]; const item=p.q[cur.qi];
-  $$(".opt").forEach(o=>o.disabled=true);
-  const qm=$("#qm .owl");
-  if(isRight){
-    btn.classList.add("correct"); cur.correct++;
-    save.points+=10; if(qm){qm.classList.add("happy");}
-    burst(6);
-  }else{
-    btn.classList.add("wrong");
-    // reveal the correct one
-    $$(".opt").forEach((o,pos)=>{ if(cur.order[pos]===item.a) o.classList.add("correct"); });
-    if(qm){qm.classList.add("sad"); $$(".brow",qm).forEach(b=>b.classList.remove("hidden"));}
-  }
-  $$(".opt").forEach(o=>{ if(!o.classList.contains("correct")&&!o.classList.contains("wrong")) o.classList.add("dim"); });
-  const fb=$("#fb");
-  fb.className="feedback show "+(isRight?"ok":"no");
-  fb.innerHTML=`<div class="fh">${isRight?"âœ… Isso mesmo!":"ğŸ’¡ Quase! Veja sÃ³:"}</div>
-    <div class="fx">${item.fx}</div>${item.law?`<span class="law">ğŸ“Œ ${item.law}</span>`:""}`;
-  // update hearts
-  const hearts=$("#hearts"); hearts.innerHTML="";
-  for(let i=0;i<p.q.length;i++){ let ic = i<cur.correct?'ğŸ’š' : (i<=cur.qi?'ğŸ©¶':'ğŸ¤'); hearts.innerHTML+=`<span>${ic}</span>`; }
-  $("#nextwrap").classList.remove("hidden");
-  const last = cur.qi>=p.q.length-1;
-  $("#next").textContent = last?"Ver resultado â–¸":"Continuar â–¸";
-  $("#next").onclick=()=>{ if(last){phaseResult();} else {cur.qi++;quiz();} };
-}
-
-/* ---------- PHASE RESULT ---------- */
-function phaseResult(){
-  const p=PHASES[cur.phase];
-  const total=p.q.length; const got=cur.correct;
-  let stars = got===total?3 : got>=Math.ceil(total*0.6)?2 : got>=1?1:0;
-  if(got===0)stars=0;
-  const prev=save.stars[p.id]||0;
-  if(stars>prev)save.stars[p.id]=stars;
-  // unlocked = how many phases are open (ids 0..unlocked-1). Clearing phase p.id
-  // with at least 1 star opens the next one, so unlocked must reach p.id+2.
-  if(stars>=1) save.unlocked=Math.min(PHASES.length, Math.max(save.unlocked, p.id+2));
-  persist();
-  if(stars>=2) bigConfetti();
-  const allDone = PHASES.every(ph=>(save.stars[ph.id]||0)>=1);
-  root.innerHTML="";
-  const s=document.createElement("div"); s.className="screen result";
-  const msgs=["Continue tentando â€” cada erro ensina!","Muito bem! JÃ¡ sabe bastante.","Excelente! VocÃª mandou muito bem!","PERFEITO! VocÃª Ã© um expert nessa fase! ğŸŒŸ"];
-  s.innerHTML=`
-    <h2>${stars>=2?"Fase concluÃ­da!":"Boa tentativa!"}</h2>
-    <div class="big-stars">${[0,1,2].map(i=>`<span class="bs ${i<stars?'on':''}">â˜…</span>`).join("")}</div>
-    <div class="rscore">âœ… ${got} de ${total} certas Â· +${got*10} pontos</div>
-    <p class="msg">${msgs[stars]}</p>
-    <div class="actions">
-      <button class="btn-3d ghost" id="retry">â†» Refazer</button>
-      ${allDone?'<button class="btn-3d sun" id="cert">ğŸ† Meu diploma</button>':`<button class="btn-3d" id="cont">${cur.phase<PHASES.length-1?'PrÃ³xima fase â–¸':'Ver mapa â–¸'}</button>`}
-    </div>
-    <button class="small-link" id="tomap">voltar ao mapa</button>`;
-  root.appendChild(s);
-  s.insertBefore(owl(stars>=2?"happy":""), s.firstChild);
-  $("#retry").onclick=()=>startPhase(p.id);
-  $("#tomap").onclick=map;
-  const cont=$("#cont"); if(cont)cont.onclick=()=>{ if(cur.phase<PHASES.length-1 && (save.unlocked>cur.phase+1||stars>=1)){startPhase(cur.phase+1);} else {map();} };
-  const cert=$("#cert"); if(cert)cert.onclick=finalCert;
-}
-
-/* ---------- FINAL ---------- */
-function finalCert(){
-  bigConfetti();
-  root.innerHTML="";
-  const s=document.createElement("div"); s.className="screen";
-  s.innerHTML=`
-    <div class="cert">
-      <div class="seal">ğŸ†</div>
-      <h2>Diploma dos Direitos</h2>
-      <p>Este certificado reconhece que</p>
-      <div class="name">vocÃª concluiu a Trilha dos Direitos!</div>
-      <p>Agora vocÃª conhece os seus direitos no trabalho e na aprendizagem:</p>
-      <ul>
-        <li>SÃ³ se trabalha a partir dos 14 (aprendiz) ou 16 anos</li>
-        <li>Carteira assinada e contrato protegem vocÃª</li>
-        <li>13Âº, fÃ©rias e FGTS sÃ£o direitos seus</li>
-        <li>Estudar sempre vem primeiro</li>
-        <li>Trabalho noturno e perigoso Ã© proibido pra menor de 18</li>
-        <li>Disque 100 para denunciar e proteger</li>
-      </ul>
-      <div class="actions" style="display:flex;gap:10px;justify-content:center;margin-top:20px;flex-wrap:wrap">
-        <button class="btn-3d ghost" id="tomap2">Voltar ao mapa</button>
-        <button class="btn-3d sun" id="again">Jogar de novo</button>
-      </div>
-    </div>`;
-  root.appendChild(s);
-  $("#tomap2").onclick=map;
-  $("#again").onclick=title;
-}
-
-/* ---------- confetti ---------- */
-function burst(n){
-  const box=$("#confetti"); box.classList.remove("hidden");
-  const cols=["#ffcb3d","#57b85f","#3d8bd4","#ff6b5e","#8a6cf0"];
-  for(let i=0;i<n;i++){
-    const p=document.createElement("i");
-    p.style.left=(40+Math.random()*20)+"%"; p.style.background=cols[i%cols.length];
-    p.style.animationDuration=(1+Math.random()*.8)+"s"; p.style.top="30%";
-    box.appendChild(p); setTimeout(()=>p.remove(),1800);
-  }
-}
-function bigConfetti(){
-  const box=$("#confetti"); box.classList.remove("hidden");
-  const cols=["#ffcb3d","#57b85f","#3d8bd4","#ff6b5e","#8a6cf0"];
-  for(let i=0;i<60;i++){
-    const p=document.createElement("i");
-    p.style.left=Math.random()*100+"%"; p.style.background=cols[i%cols.length];
-    p.style.animationDuration=(1.6+Math.random()*1.6)+"s"; p.style.animationDelay=(Math.random()*.4)+"s";
-    box.appendChild(p); setTimeout(()=>p.remove(),3600);
-  }
-}
-
-title();
-</script>
+.feedback.no{background:#fff2ea;border:2px solio9ëKh‘éì¶»§q«^tÑÉ…‰…±¡¼¸ğ½Àø(€€€€ñ‘¥Ø±…ÍÌô‰Á±…å•Èµ…Éˆø(€€€€€€ñ‘¥Ø±…ÍÌô‰Á±…å•Èµ¥ˆøñÍÁ…¸±…ÍÌô‰Á±…å•Èµ…Ù…Ñ…Èˆø‘íÍ…Ù”¹…Ù…Ñ…Éôğ½ÍÁ…¸øñ‘¥ØøñÍÑÉ½¹œø‘í•ÍŒ¡Í…Ù”¹¹…µ”¥ôğ½ÍÑÉ½¹œøñÍµ…±°ø‘íÑ½Ñ…±MÑ…ÉÍ½È¡Í…Ù”¥ô¼‘í5a}MQIMô•ÍÑÉ•±…Ìƒ
+Ü€‘íÍ…Ù”¹Á½¥¹ÑÍñğÁôÁ½¹Ñ½Ìğ½Íµ…±°øğ½‘¥Øøğ½‘¥Øø(€€€€€€ñ‰ÕÑÑ½¸±…ÍÌô‰Íµ…±°µ±¥¹¬ˆ¥ô‰Íİ¥Ñ µÁ±…å•ÈˆùÑÉ½…Èğ½‰ÕÑÑ½¸ø(€€€€ğ½‘¥Øø(€€€€ñ‘¥Ø±…ÍÌô‰Ñ¥Ñ±”µ…Ñ¥½¹Ìˆøñ‰ÕÑÑ½¸±…ÍÌô‰‰Ñ¸´Íˆ¥ô‰¼ˆûŠZØ)½…Èğ½‰ÕÑÑ½¸øñ‰ÕÑÑ½¸±…ÍÌô‰‰Ñ¸´ÍÍÕ¸ˆ¥ô‰Í¡½ÜµÉ…¹­¥¹œˆûÂ~>I…¹­¥¹œğ½‰ÕÑÑ½¸øğ½‘¥Øø(€€€€‘íÍ…Ù”¹Õ¹±½­•øÅññÍ…Ù”¹Á½¥¹ÑÌøÀüœñ‰ÕÑÑ½¸±…ÍÌô‰Íµ…±°µ±¥¹¬ˆ¥ô‰É•Í•ĞˆùÉ•¥¹¥¥…ÈÁÉ½É•ÍÍ¼‘•ÍÑ”©½…‘½Èğ½‰ÕÑÑ½¸øœèœõ€ì(€É½½Ğ¹…ÁÁ•¹‘¡¥±¡Ì¤ì4(€Ì¹¥¹Í•ÉÑ	•™½É”¡½İ° ¤°Ì¹™¥ÉÍÑ¡¥±¤ì4(€€ ˆ¼ˆ¤¹½¹±¥¬õµ…Àì(€€ ˆÍ¡½ÜµÉ…¹­¥¹œˆ¤¹½¹±¥¬õÉ…¹­¥¹œì(€€ ˆÍİ¥Ñ µÁ±…å•Èˆ¤¹½¹±¥¬õ¡½½Í•A±…å•Èì(€½¹ÍĞÉÌô ˆÉ•Í•Ğˆ¤ì¥˜¡ÉÌ¥ÉÌ¹½¹±¥¬ô ¤ôùì(€€€¥˜¡½¹™¥É´¡I•¥¹¥¥…ÈÑ½‘¼¼ÁÉ½É•ÍÍ¼‘”€‘íÍ…Ù”¹¹…µ•ôı€¤¥ì(€€€€€=‰©•Ğ¹…ÍÍ¥¸¡Í…Ù”±™É•Í¡AÉ½É•ÍÌ ¤¤íÁ•ÉÍ¥ÍĞ ¤íÑ¥Ñ±” ¤ì(€€€ô(€ôì)ô(4(¼¨€´´´´´´´´´´5@€´´´´´´´´´´€¨¼4)™Õ¹Ñ¥½¸Ñ½Ñ…±MÑ…ÉÌ ¥íÉ•ÑÕÉ¸=‰©•Ğ¹Ù…±Õ•Ì¡Í…Ù”¹ÍÑ…ÉÌ¤¹É•‘Õ” ¡„±ˆ¤ôù„­ˆ°À¤íô)™Õ¹Ñ¥½¸µ…À ¥ì(€É½½Ğ¹¥¹¹•É!Q50ôˆˆì4(€½¹ÍĞÌõ‘½Õµ•¹Ğ¹É•…Ñ•±•µ•¹Ğ ‰‘¥Øˆ¤ìÌ¹±…ÍÍ9…µ”ô‰ÍÉ••¸ˆì4(€½¹ÍĞ™¥ÉÍÑ1½­•€ôA!ML¹™¥¹‘%¹‘•à¡ÀôùÀ¹¥øõÍ…Ù”¹Õ¹±½­•¤ì4(€Ì¹¥¹¹•É!Q50õ€4(€€€€ñ‘¥Ø±…ÍÌô‰µ…Àµ¡•…ˆø(€€€€€€ñ‘¥Ø±…ÍÌô‰Á±…å•Èµ‰…‘”ˆøñÍÁ…¸ø‘íÍ…Ù”¹…Ù…Ñ…Éôğ½ÍÁ…¸ø‘í•ÍŒ¡Í…Ù”¹¹…µ”¥ôğ½‘¥Øø(€€€€€€ñ‘¥Ø±…ÍÌô‰Í½É•Á¥±°ˆ…É¥„µ±…‰•°ôˆ‘íÑ½Ñ…±MÑ…ÉÌ ¥ô‘”€‘íA!ML¹±•¹Ñ ¨Íô•ÍÑÉ•±…ÌˆøñÍÁ…¸±…ÍÌô‰ÍÑ…Èˆ…É¥„µ¡¥‘‘•¸ô‰ÑÉÕ”ˆûŠbğ½ÍÁ…¸ø€‘íÑ½Ñ…±MÑ…ÉÌ ¥ô¼‘íA!ML¹±•¹Ñ ¨Íôğ½‘¥Øø(€€€€ğ½‘¥Øø(€€€€ñ ÈùÍ½±¡„„™…Í”ğ½ Èø(€€€€ñ‘¥Ø±…ÍÌô‰µ…ÀµÍÑ½ÉäˆûÂ~^ë¾â<…‘„™…Í”Õ…É‘„Õµ„Á—„‘¼ÍÕ‘¼‘½Ì¥É•¥Ñ½Ì¸Í½±¡„Õµ„µ¥ÍÏ¼”…Ù…¹”Á•±„ÑÉ¥±¡„„ğ½‘¥Øø(€€€€ñ‘¥Ø±…ÍÌô‰ÑÉ…¥°ˆø4(€€€€€€ñÍÙœ±…ÍÌô‰ÑÉ…¥°µ±¥¹”ˆİ¥‘Ñ ôˆÄÈÀˆÙ¥•İ	½àôˆÀ€À€ÄÈÀ€‘íA!ML¹±•¹Ñ ¨ÄÀÁôˆÁÉ•Í•ÉÙ•ÍÁ•ÑI…Ñ¥¼ô‰¹½¹”ˆø4(€€€€€€€€ñÁ…Ñ ôˆ‘íÑÉ…¥±A…Ñ  ¥ôˆ™¥±°ô‰¹½¹”ˆÍÑÉ½­”ôˆ™™™™™˜ˆÍÑÉ½­”µİ¥‘Ñ ôˆàˆÍÑÉ½­”µ±¥¹•…Àô‰É½Õ¹ˆÍÑÉ½­”µ‘…Í¡…ÉÉ…äôˆÈ€ÄØˆ½Á…¥Ñäôˆ¸àˆ¼ø4(€€€€€€ğ½ÍÙœø4(€€€€€€ñ‘¥Ø±…ÍÌô‰¹½‘•Ìˆ¥ô‰¹½‘•Ìˆøğ½‘¥Øø4(€€€€ğ½‘¥Øù€ì4(€É½½Ğ¹…ÁÁ•¹‘¡¥±¡Ì¤ì4(€½¹ÍĞ¹½‘•Ìô ˆ¹½‘•Ìˆ¤ì4(€A!ML¹™½É… ¡Àôùì4(€€€½¹ÍĞ±½­•õÀ¹¥øõÍ…Ù”¹Õ¹±½­•ì4(€€€½¹ÍĞÍĞõÍ…Ù”¹ÍÑ…ÉÍmÀ¹¥‘uñğÀì4(€€€½¹ÍĞ¥ÍÕÉÉ•¹ĞõÀ¹¥ôôõÍ…Ù”¹Õ¹±½­•´Ä€˜˜ÍĞôôôÀñğÀ¹¥ôôõÍ…Ù”¹Õ¹±½­•€˜˜€…±½­•ì4(€€€½¹ÍĞ¸õ‘½Õµ•¹Ğ¹É•…Ñ•±•µ•¹Ğ ‰‘¥Øˆ¤ì(€€€¸¹±…ÍÍ9…µ”ô‰¹½‘”ˆ¬¡±½­•üˆ±½­•µ¹½‘”ˆèˆˆ¤¬¡À¹¥ôôõ™¥ÉÍÑU¹±½­•‘A±…å…‰±” ¤üˆÕÉÉ•¹Ğˆèˆˆ¤ì(€€€¸¹Í•ÑÑÑÉ¥‰ÕÑ” ‰É½±”ˆ°‰‰ÕÑÑ½¸ˆ¤ì(€€€¸¹Ñ…‰%¹‘•àôÀì(€€€¸¹Í•ÑÑÑÉ¥‰ÕÑ” ‰…É¥„µ‘¥Í…‰±•ˆ±MÑÉ¥¹œ¡±½­•¤¤ì(€€€¸¹Í•ÑÑÑÉ¥‰ÕÑ” ‰…É¥„µ±…‰•°ˆ±…Í”€‘íÀ¹¥¬Åôè€‘íÀ¹¹…µ•ô¸€‘í±½­•ü	±½ÅÕ•…‘„œé€‘íÍÑô‘”€Ì•ÍÑÉ•±…Íõ€¤ì(€€€¸¹¥¹¹•É!Q50õ€4(€€€€€€ñ‘¥Ø±…ÍÌô‰‰Õ‰‰±”€‘í±½­•ü±½­•œéÀ¹½±½ÉôˆøñÍÁ…¸ø‘íÀ¹¥½¹ôğ½ÍÁ…¸øğ½‘¥Øø4(€€€€€€ñ‘¥Ø±…ÍÌô‰µ•Ñ„ˆø4(€€€€€€€€ñ‘¥Ø±…ÍÌô‰Á ˆù…Í”€‘íÀ¹¥¬Åôğ½‘¥Øø4(€€€€€€€€ñ‘¥Ø±…ÍÌô‰¹´ˆø‘íÀ¹¹…µ•ôğ½‘¥Øø4(€€€€€€€€ñ‘¥Ø±…ÍÌô‰ÍÑ…ÉÌˆ…É¥„µ¡¥‘‘•¸ô‰ÑÉÕ”ˆø‘ílÀ°Ä°Ét¹µ…À¡¤ôù€ñÍÁ…¸±…ÍÌô‰Ì€‘í¤ñÍĞü½¸œèœôˆûŠbğ½ÍÁ…¸ù€¤¹©½¥¸ ˆˆ¥ôğ½‘¥Øø(€€€€€€ğ½‘¥Øù€ì(€€€½¹ÍĞ…Ñ¥Ù…Ñ”ô ¤ôù±½­•ıİ¥±”¡¸¤éÍÑ…ÉÑA¡…Í”¡À¹¥¤ì(€€€¸¹½¹±¥¬õ…Ñ¥Ù…Ñ”ì(€€€¸¹½¹­•å‘½İ¸õ”ôùí¥˜¡”¹­•äôôô‰¹Ñ•È‰ññ”¹­•äôôôˆ€ˆ¥í”¹ÁÉ•Ù•¹Ñ•™…Õ±Ğ ¤í…Ñ¥Ù…Ñ” ¤íõôì(€€€¹½‘•Ì¹…ÁÁ•¹‘¡¥±¡¸¤ì4(€ô¤ì4)ô4)™Õ¹Ñ¥½¸™¥ÉÍÑU¹±½­•‘A±…å…‰±” ¥ì4(€™½È¡½¹ÍĞÀ½˜A!ML¥ì¥˜¡À¹¥ñÍ…Ù”¹Õ¹±½­•€˜˜€¡Í…Ù”¹ÍÑ…ÉÍmÀ¹¥‘uñğÀ¤ğÌ¤É•ÑÕÉ¸À¹¥ìô4(€É•ÑÕÉ¸5…Ñ ¹µ¥¸¡Í…Ù”¹Õ¹±½­•°A!ML¹±•¹Ñ ´Ä¤ì4)ô4)™Õ¹Ñ¥½¸ÑÉ…¥±A…Ñ  ¥ì4(€±•Ğõ4ØÀ€ÈÁ€ì™½È¡±•Ğ¤ôÄí¤ñA!ML¹±•¹Ñ í¤¬¬¥í½¹ÍĞäõ¤¨ÄÀÀ¬ÈÀí½¹ÍĞàõ¤”ÈüÄÀÀèÈÀí¬õ€DØÀ€‘íä´ÔÁô€‘íáô€‘íåõ€íô4(€É•ÑÕÉ¸ì4)ô4)™Õ¹Ñ¥½¸İ¥±”¡¸¥í¸¹…¹¥µ…Ñ”¡míÑÉ…¹Í™½É´èÑÉ…¹Í±…Ñ•` À¤ô±íÑÉ…¹Í™½É´èÑÉ…¹Í±…Ñ•` ´ÙÁà¤ô±íÑÉ…¹Í™½É´èÑÉ…¹Í±…Ñ•` ÙÁà¤ô±íÑÉ…¹Í™½É´èÑÉ…¹Í±…Ñ•` À¤õt±í‘ÕÉ…Ñ¥½¸èÌÀÁô¤íô4(4(¼¨€´´´´´´´´´´EU%h€´´´´´´´´´´€¨¼4)™Õ¹Ñ¥½¸ÍÑ…ÉÑA¡…Í”¡¥¥ì(€ÕÈõíÁ¡…Í”é¥±Å¤èÀ±½ÉÉ•ĞèÀ±…¹Íİ•É•é™…±Í”±ÍÑ…ÉÑ•‘Ğé…Ñ”¹¹½Ü ¥ôì(€ÅÕ¥è ¤ì4)ô4)™Õ¹Ñ¥½¸ÅÕ¥è ¥ì(€½¹ÍĞÀõA!MMmÕÈ¹Á¡…Í•tì½¹ÍĞ¥Ñ•´õÀ¹ÅmÕÈ¹Å¥tì(€½¹ÍĞ©½ÕÉ¹•äõ)=UI9emÕÈ¹Á¡…Í•tì(€€¼¼Í¡Õ™™±”½ÁÑ¥½¹Ì°É•µ•µ‰•È½ÉÉ•Ğ4(€½¹ÍĞ¥‘àõ¥Ñ•´¹¼¹µ…À ¡|±¤¤ôù¤¤ì4(€™½È¡±•Ğ¤õ¥‘à¹±•¹Ñ ´Äí¤øÀí¤´´¥í½¹ÍĞ¨õ5…Ñ ¹™±½½È¡5…Ñ ¹É…¹‘½´ ¤¨¡¤¬Ä¤¤ím¥‘ám¥t±¥‘ám©utõm¥‘ám©t±¥‘ám¥utíô4(€ÕÈ¹½É‘•Èõ¥‘àìÕÈ¹…¹Íİ•É•õ™…±Í”ì4(€½¹ÍĞÁÉ½œô ¡ÕÈ¹Å¤¤½À¹Ä¹±•¹Ñ ¤¨ÄÀÀì4(€É½½Ğ¹¥¹¹•É!Q50ôˆˆì4(€½¹ÍĞÌõ‘½Õµ•¹Ğ¹É•…Ñ•±•µ•¹Ğ ‰‘¥Øˆ¤ìÌ¹±…ÍÍ9…µ”ô‰ÍÉ••¸ˆì4(€Ì¹¥¹¹•É!Q50õ€4(€€€€ñ‘¥Ø±…ÍÌô‰ÅÑ½Àˆø(€€€€€€ñ‘¥Ø±…ÍÌô‰Á‰…ÈˆÉ½±”ô‰ÁÉ½É•ÍÍ‰…Èˆ…É¥„µ±…‰•°ô‰AÉ½É•ÍÍ¼‘„™…Í”ˆ…É¥„µÙ…±Õ•µ¥¸ôˆÀˆ…É¥„µÙ…±Õ•µ…àôˆ‘íÀ¹Ä¹±•¹Ñ¡ôˆ…É¥„µÙ…±Õ•¹½Üôˆ‘íÕÈ¹Å¥ôˆøñ¤ÍÑå±”ô‰İ¥‘Ñ è‘íÁÉ½ô”ˆøğ½¤øğ½‘¥Øø(€€€€€€ñ‘¥Ø±…ÍÌô‰¡•…ÉÑÌˆ¥ô‰¡•…ÉÑÌˆ…É¥„µ±…‰•°ôˆ‘íÕÈ¹½ÉÉ•Ñô…•ÉÑ½Ì…Ó¤…½É„ˆøğ½‘¥Øø(€€€€€€ñ‰ÕÑÑ½¸±…ÍÌô‰•¹µ‰Ñ¸ˆ¥ô‰•¹µ©½ÕÉ¹•äˆ…É¥„µ±…‰•°ô‰¹•ÉÉ…È„©½É¹…‘„…¹Ñ•Ì‘”½¹±Õ¥ÈˆûŠ>à¹•ÉÉ…Èğ½‰ÕÑÑ½¸ø(€€€€ğ½‘¥Øø(€€€€ñ‘¥Ø±…ÍÌô‰Å‰…¹¹•ÈˆøñÍÁ…¸±…ÍÌô‰¥Œˆø‘íÀ¹¥½¹ôğ½ÍÁ…¸øñ‘¥Ø±…ÍÌô‰Ğˆù…Í”€‘íÀ¹¥¬Åôñˆø‘íÀ¹¹…µ•ôğ½ˆøğ½‘¥Øøñ‘¥Ø±…ÍÌô‰Á±…å•Èµ‰…‘”ˆÍÑå±”ô‰µ…É¥¸µ±•™Ğé…ÕÑ¼ˆøñÍÁ…¸ø‘íÍ…Ù”¹…Ù…Ñ…Éôğ½ÍÁ…¸ø‘í•ÍŒ¡Í…Ù”¹¹…µ”¥ôğ½‘¥Øøğ½‘¥Øø(€€€€ñ‘¥Ø±…ÍÌô‰©½ÕÉ¹•äµÍÑÉ¥ÀˆøñÍÁ…¸±…ÍÌô‰ÑÉ•…ÍÕÉ”ˆ…É¥„µ¡¥‘‘•¸ô‰ÑÉÕ”ˆø‘í©½ÕÉ¹•ä¹ÑÉ•…ÍÕÉ•ôğ½ÍÁ…¸øñ‘¥ØøñÍÑÉ½¹œù5¥ÍÏ¼è€‘í©½ÕÉ¹•ä¹Ñ¥Ñ±•ôğ½ÍÑÉ½¹œøñÍµ…±°ø‘í©½ÕÉ¹•ä¹ÍÑ½Éåôğ½Íµ…±°øğ½‘¥Øøğ½‘¥Øø(€€€€ñ‘¥Ø±…ÍÌô‰ÍÑ•Àµ‘½ÑÌˆ…É¥„µ±…‰•°ô‰Ñ…Á„€‘íÕÈ¹Å¤¬Åô‘”€‘íÀ¹Ä¹±•¹Ñ¡ôˆø‘íÀ¹Ä¹µ…À ¡|±¤¤ôù€ñÍÁ…¸±…ÍÌô‰ÍÑ•Àµ‘½Ğ€‘í¤ñÕÈ¹Å¤ü‘½¹”œé¤ôôõÕÈ¹Å¤ü¹½Üœèœôˆ…É¥„µ¡¥‘‘•¸ô‰ÑÉÕ”ˆøğ½ÍÁ…¸ù€¤¹©½¥¸ ˆˆ¥ôğ½‘¥Øø(€€€€ñ‘¥Ø±…ÍÌô‰Å…Éˆø4(€€€€€€ñ‘¥Ø±…ÍÌô‰Åµ…Í½Ğˆ¥ô‰Å´ˆøğ½‘¥Øø4(€€€€€€ñ‘¥Ø±…ÍÌô‰Å¹Õ´ˆùA•ÉÕ¹Ñ„€‘íÕÈ¹Å¤¬Åô‘”€‘íÀ¹Ä¹±•¹Ñ¡ôğ½‘¥Øø4(€€€€€€ñ‘¥Ø±…ÍÌô‰ÅÑ•áĞˆ¥ô‰ÅÕ•ÍÑ¥½¸µÑ•áĞˆø‘í¥Ñ•´¹Åôğ½‘¥Øø(€€€€€€ñ‘¥Ø±…ÍÌô‰½ÁÑÌˆ¥ô‰½ÁÑÌˆÉ½±”ô‰É½ÕÀˆ…É¥„µ±…‰•±±•‘‰äô‰ÅÕ•ÍÑ¥½¸µÑ•áĞˆøğ½‘¥Øø(€€€€€€ñ‘¥Ø±…ÍÌô‰™••‘‰…¬ˆ¥ô‰™ˆˆÉ½±”ô‰ÍÑ…ÑÕÌˆ…É¥„µ±¥Ù”ô‰Á½±¥Ñ”ˆøğ½‘¥Øø(€€€€€€ñ‘¥Ø±…ÍÌô‰¹•áĞµİÉ…À¡¥‘‘•¸ˆ¥ô‰¹•áÑİÉ…Àˆøñ‰ÕÑÑ½¸±…ÍÌô‰‰Ñ¸´Í‰±Õ”ˆ¥ô‰¹•áĞˆù½¹Ñ¥¹Õ…ÈƒŠZàğ½‰ÕÑÑ½¸øğ½‘¥Øø4(€€€€ğ½‘¥Øù€ì4(€É½½Ğ¹…ÁÁ•¹‘¡¥±¡Ì¤ì4(€€ ˆÅ´ˆ¤¹…ÁÁ•¹‘¡¥±¡½İ° ¤¤ì4(€½¹ÍĞ¡•…ÉÑÌô ˆ¡•…ÉÑÌˆ¤ì4(€™½È¡±•Ğ¤ôÀí¤ñÀ¹Ä¹±•¹Ñ í¤¬¬¤¡•…ÉÑÌ¹¥¹¹•É!Q50¬õ€ñÍÁ…¸ø‘í¤ñÕÈ¹½ÉÉ•ĞüŸÂ~Jhœè¡¤ñÕÈ¹Å¤üŸÂ~¦ØœèŸÂ~’4œ¥ôğ½ÍÁ…¸ù€ì4(€½¹ÍĞ½ÁÑÌô ˆ½ÁÑÌˆ¤ì½¹ÍĞ±•ÑÑ•ÉÌõl‰ˆ°‰ˆ°‰ˆ°‰‰tì4(€ÕÈ¹½É‘•È¹™½É…  ¡½É¥%¹‘•à±Á½Ì¤ôùì4(€€€½¹ÍĞˆõ‘½Õµ•¹Ğ¹É•…Ñ•±•µ•¹Ğ ‰‰ÕÑÑ½¸ˆ¤ì4(€€€ˆ¹±…ÍÍ9…µ”ô‰½ÁĞˆìˆ¹¥¹¹•É!Q50õ€ñÍÁ…¸±…ÍÌô‰­‰ˆø‘í±•ÑÑ•ÉÍmÁ½Íuôğ½ÍÁ…¸øñÍÁ…¸ø‘í¥Ñ•´¹½m½É¥%¹‘•áuôğ½ÍÁ…¸ù€ì4(€€€ˆ¹½¹±¥¬ô ¤ôù…¹Íİ•È¡ˆ±½É¥%¹‘•àôôõ¥Ñ•´¹„¤ì4(€€€½ÁÑÌ¹…ÁÁ•¹‘¡¥±¡ˆ¤ì4(€ô¤ì4(€€ ˆ•¹µ©½ÕÉ¹•äˆ¤¹½¹±¥¬õ•¹‘)½ÕÉ¹•äì)ô)™Õ¹Ñ¥½¸…¹Íİ•È¡‰Ñ¸±¥ÍI¥¡Ğ¥ì4(€¥˜¡ÕÈ¹…¹Íİ•É•¥É•ÑÕÉ¸ìÕÈ¹…¹Íİ•É•õÑÉÕ”ì4(€½¹ÍĞÀõA!MMmÕÈ¹Á¡…Í•tì½¹ÍĞ¥Ñ•´õÀ¹ÅmÕÈ¹Å¥tì4(€€ ˆ¹½ÁĞˆ¤¹™½É… ¡¼ôù¼¹‘¥Í…‰±•õÑÉÕ”¤ì4(€½¹ÍĞÅ´ô ˆÅ´€¹½İ°ˆ¤ì4(€¥˜¡¥ÍI¥¡Ğ¥ì(€€€‰Ñ¸¹±…ÍÍ1¥ÍĞ¹…‘ ‰½ÉÉ•Ğˆ¤ìÕÈ¹½ÉÉ•Ğ¬¬ì(€€€¥˜¡Å´¥íÅ´¹±…ÍÍ1¥ÍĞ¹…‘ ‰¡…ÁÁäˆ¤íô(€€€‰ÕÉÍĞ Ø¤ì4(€õ•±Í•ì4(€€€‰Ñ¸¹±…ÍÍ1¥ÍĞ¹…‘ ‰İÉ½¹œˆ¤ì4(€€€€¼¼É•Ù•…°Ñ¡”½ÉÉ•Ğ½¹”4(€€€€ ˆ¹½ÁĞˆ¤¹™½É…  ¡¼±Á½Ì¤ôùì¥˜¡ÕÈ¹½É‘•ÉmÁ½Ítôôõ¥Ñ•´¹„¤¼¹±…ÍÍ1¥ÍĞ¹…‘ ‰½ÉÉ•Ğˆ¤ìô¤ì4(€€€¥˜¡Å´¥íÅ´¹±…ÍÍ1¥ÍĞ¹…‘ ‰Í…ˆ¤ì€ ˆ¹‰É½Üˆ±Å´¤¹™½É… ¡ˆôùˆ¹±…ÍÍ1¥ÍĞ¹É•µ½Ù” ‰¡¥‘‘•¸ˆ¤¤íô4(€ô4(€€ ˆ¹½ÁĞˆ¤¹™½É… ¡¼ôùì¥˜ …¼¹±…ÍÍ1¥ÍĞ¹½¹Ñ…¥¹Ì ‰½ÉÉ•Ğˆ¤˜˜…¼¹±…ÍÍ1¥ÍĞ¹½¹Ñ…¥¹Ì ‰İÉ½¹œˆ¤¤¼¹±…ÍÍ1¥ÍĞ¹…‘ ‰‘¥´ˆ¤ìô¤ì4(€½¹ÍĞ™ˆô ˆ™ˆˆ¤ì4(€™ˆ¹±…ÍÍ9…µ”ô‰™••‘‰…¬Í¡½Ü€ˆ¬¡¥ÍI¥¡Ğü‰½¬ˆè‰¹¼ˆ¤ì4(€½¹ÍĞ©½ÕÉ¹•äõ)=UI9emÕÈ¹Á¡…Í•tì(€™ˆ¹¥¹¹•É!Q50õ€ñ‘¥Ø±…ÍÌô‰™ ˆø‘í¥ÍI¥¡Ğı€‘í©½ÕÉ¹•ä¹ÑÉ•…ÍÕÉ•ô€‘í©½ÕÉ¹•ä¹¡••Éõ€è‹Â~J„	½„Ñ•¹Ñ…Ñ¥Ù„„Q½‘„Á¥ÍÑ„•¹Í¥¹„è‰ôğ½‘¥Øø(€€€€ñ‘¥Ø±…ÍÌô‰™àˆø‘í¥Ñ•´¹™áôğ½‘¥Øø‘í¥Ñ•´¹±…Üı€ñÍÁ…¸±…ÍÌô‰±…ÜˆûÂ~N0€‘í¥Ñ•´¹±…İôğ½ÍÁ…¸ù€èˆ‰õ€ì(€€¼¼ÕÁ‘…Ñ”¡•…ÉÑÌ4(€½¹ÍĞ¡•…ÉÑÌô ˆ¡•…ÉÑÌˆ¤ì¡•…ÉÑÌ¹¥¹¹•É!Q50ôˆˆì4(€™½È¡±•Ğ¤ôÀí¤ñÀ¹Ä¹±•¹Ñ í¤¬¬¥ì±•Ğ¥Œ€ô¤ñÕÈ¹½ÉÉ•ĞüŸÂ~Jhœ€è€¡¤ğõÕÈ¹Å¤üŸÂ~¦ØœèŸÂ~’4œ¤ì¡•…ÉÑÌ¹¥¹¹•É!Q50¬õ€ñÍÁ…¸ø‘í¥ôğ½ÍÁ…¸ù€ìô4(€€ ˆ¹•áÑİÉ…Àˆ¤¹±…ÍÍ1¥ÍĞ¹É•µ½Ù” ‰¡¥‘‘•¸ˆ¤ì4(€½¹ÍĞ±…ÍĞ€ôÕÈ¹Å¤øõÀ¹Ä¹±•¹Ñ ´Äì4(€€ ˆ¹•áĞˆ¤¹Ñ•áÑ½¹Ñ•¹Ğ€ô±…ÍĞü‰Y•ÈÉ•ÍÕ±Ñ…‘¼ƒŠZàˆè‰½¹Ñ¥¹Õ…ÈƒŠZàˆì4(€€ ˆ¹•áĞˆ¤¹½¹±¥¬ô ¤ôùì¥˜¡±…ÍĞ¥íÁ¡…Í•I•ÍÕ±Ğ ¤íô•±Í”íÕÈ¹Å¤¬¬íÅÕ¥è ¤íôôì4)ô4(4(¼¨€´´´´´´´´´´A!MIMU1P€´´´´´´´´´´€¨¼4)™Õ¹Ñ¥½¸Á¡…Í•I•ÍÕ±Ğ ¥ì(€½¹ÍĞÀõA!MMmÕÈ¹Á¡…Í•tì4(€½¹ÍĞÑ½Ñ…°õÀ¹Ä¹±•¹Ñ ì½¹ÍĞ½ĞõÕÈ¹½ÉÉ•Ğì4(€±•ĞÍÑ…ÉÌ€ô½ĞôôõÑ½Ñ…°üÌ€è½Ğøõ5…Ñ ¹•¥°¡Ñ½Ñ…°¨À¸Ø¤üÈ€è½ĞøôÄüÄèÀì(€¥˜¡½ĞôôôÀ¥ÍÑ…ÉÌôÀì(€¥˜ …Í…Ù”¹½µÁ±•Ñ•‘Ğ˜™ÕÈ¹ÍÑ…ÉÑ•‘Ğ¤Í…Ù”¹•±…ÁÍ•‘5Ìô¡Í…Ù”¹•±…ÁÍ•‘5ÍñğÀ¤­5…Ñ ¹µ…à À±…Ñ”¹¹½Ü ¤µÕÈ¹ÍÑ…ÉÑ•‘Ğ¤ì(€½¹ÍĞÁÉ•ØõÍ…Ù”¹ÍÑ…ÉÍmÀ¹¥‘uñğÀì(€¥˜¡ÍÑ…ÉÌùÁÉ•Ø¥Í…Ù”¹ÍÑ…ÉÍmÀ¹¥‘tõÍÑ…ÉÌì(€½¹ÍĞÁÉ•Ù½ÉÉ•ĞõÍ…Ù”¹‰•ÍÑ½ÉÉ•ÑÍmÀ¹¥‘uñğÀì(€¥˜¡½ĞùÁÉ•Ù½ÉÉ•Ğ¥íÍ…Ù”¹‰•ÍÑ½ÉÉ•ÑÍmÀ¹¥‘tõ½ĞíÍ…Ù”¹Á½¥¹ÑÌô¡Í…Ù”¹Á½¥¹ÑÍñğÀ¤¬¡½ĞµÁÉ•Ù½ÉÉ•Ğ¤¨ÄÀíô(€€¼¼Õ¹±½­•€ô¡½Üµ…¹äÁ¡…Í•Ì…É”½Á•¸€¡¥‘Ì€À¸¹Õ¹±½­•´Ä¤¸±•…É¥¹œÁ¡…Í”À¹¥4(€€¼¼İ¥Ñ …Ğ±•…ÍĞ€ÄÍÑ…È½Á•¹ÌÑ¡”¹•áĞ½¹”°Í¼Õ¹±½­•µÕÍĞÉ•… À¹¥¬È¸4(€¥˜¡ÍÑ…ÉÌøôÄ¤Í…Ù”¹Õ¹±½­•õ5…Ñ ¹µ¥¸¡A!ML¹±•¹Ñ °5…Ñ ¹µ…à¡Í…Ù”¹Õ¹±½­•°À¹¥¬È¤¤ì4(€Á•ÉÍ¥ÍĞ ¤ì(€¥˜¡ÍÑ…ÉÌøôÈ¤‰¥½¹™•ÑÑ¤ ¤ì4(€½¹ÍĞ…±±½¹”€ôA!ML¹•Ù•Éä¡Á ôø¡Í…Ù”¹ÍÑ…ÉÍmÁ ¹¥‘uñğÀ¤øôÄ¤ì(€¥˜¡…±±½¹”˜˜…Í…Ù”¹½µÁ±•Ñ•‘Ğ¥íÍ…Ù”¹½µÁ±•Ñ•‘Ğõ…Ñ”¹¹½Ü ¤íÁ•ÉÍ¥ÍĞ ¤íô(€É½½Ğ¹¥¹¹•É!Q50ôˆˆì4(€½¹ÍĞÌõ‘½Õµ•¹Ğ¹É•…Ñ•±•µ•¹Ğ ‰‘¥Øˆ¤ìÌ¹±…ÍÍ9…µ”ô‰ÍÉ••¸É•ÍÕ±Ğˆì4(€½¹ÍĞµÍÌõl‰½¹Ñ¥¹Õ”Ñ•¹Ñ…¹‘¼ƒŠP…‘„•ÉÉ¼•¹Í¥¹„„ˆ°‰5Õ¥Ñ¼‰•´„+„Í…‰”‰…ÍÑ…¹Ñ”¸ˆ°‰á•±•¹Ñ”„Y½¨µ…¹‘½ÔµÕ¥Ñ¼‰•´„ˆ°‰AI%Q<„Y½¨ƒ¤Õ´•áÁ•ÉĞ¹•ÍÍ„™…Í”„ƒÂ~2|‰tì4(€Ì¹¥¹¹•É!Q50õ€4(€€€€ñ Èø‘íÍÑ…ÉÌøôÈü‰…Í”½¹±×µ‘„„ˆè‰	½„Ñ•¹Ñ…Ñ¥Ù„„‰ôğ½ Èø4(€€€€ñ‘¥Ø±…ÍÌô‰‰¥œµÍÑ…ÉÌˆø‘ílÀ°Ä°Ét¹µ…À¡¤ôù€ñÍÁ…¸±…ÍÌô‰‰Ì€‘í¤ñÍÑ…ÉÌü½¸œèœôˆûŠbğ½ÍÁ…¸ù€¤¹©½¥¸ ˆˆ¥ôğ½‘¥Øø4(€€€€ñ‘¥Ø±…ÍÌô‰ÉÍ½É”ˆûŠr€‘í½Ñô‘”€‘íÑ½Ñ…±ô•ÉÑ…Ìƒ
+ÜÉ•½É‘”€‘íÍ…Ù”¹Á½¥¹ÑÍô¼‘í5a}A=%9QMôÁ½¹Ñ½Ìğ½‘¥Øø(€€€€ñÀ±…ÍÌô‰µÍœˆø‘íµÍÍmÍÑ…ÉÍuôğ½Àø4(€€€€ñ‘¥Ø±…ÍÌô‰…Ñ¥½¹Ìˆø4(€€€€€€ñ‰ÕÑÑ½¸±…ÍÌô‰‰Ñ¸´Í¡½ÍĞˆ¥ô‰É•ÑÉäˆûŠìI•™…é•Èğ½‰ÕÑÑ½¸ø4(€€€€€€‘í…±±½¹”üœñ‰ÕÑÑ½¸±…ÍÌô‰‰Ñ¸´ÍÍÕ¸ˆ¥ô‰•ÉĞˆûÂ~>5•Ô‘¥Á±½µ„ğ½‰ÕÑÑ½¸øœé€ñ‰ÕÑÑ½¸±…ÍÌô‰‰Ñ¸´Íˆ¥ô‰½¹Ğˆø‘íÕÈ¹Á¡…Í”ñA!ML¹±•¹Ñ ´ÄüAËÍá¥µ„™…Í”ƒŠZàœèY•Èµ…Á„ƒŠZàôğ½‰ÕÑÑ½¸ùô4(€€€€ğ½‘¥Øø4(€€€€ñ‰ÕÑÑ½¸±…ÍÌô‰Íµ…±°µ±¥¹¬ˆ¥ô‰Ñ½µ…ÀˆùÙ½±Ñ…È…¼µ…Á„ğ½‰ÕÑÑ½¸ù€ì4(€É½½Ğ¹…ÁÁ•¹‘¡¥±¡Ì¤ì4(€Ì¹¥¹Í•ÉÑ	•™½É”¡½İ°¡ÍÑ…ÉÌøôÈü‰¡…ÁÁäˆèˆˆ¤°Ì¹™¥ÉÍÑ¡¥±¤ì4(€€ ˆÉ•ÑÉäˆ¤¹½¹±¥¬ô ¤ôùÍÑ…ÉÑA¡…Í”¡À¹¥¤ì4(€€ ˆÑ½µ…Àˆ¤¹½¹±¥¬õµ…Àì4(€½¹ÍĞ½¹Ğô ˆ½¹Ğˆ¤ì¥˜¡½¹Ğ¥½¹Ğ¹½¹±¥¬ô ¤ôùì¥˜¡ÕÈ¹Á¡…Í”ñA!ML¹±•¹Ñ ´Ä€˜˜€¡Í…Ù”¹Õ¹±½­•ùÕÈ¹Á¡…Í”¬ÅññÍÑ…ÉÌøôÄ¤¥íÍÑ…ÉÑA¡…Í”¡ÕÈ¹Á¡…Í”¬Ä¤íô•±Í”íµ…À ¤íôôì4(€½¹ÍĞ•ÉĞô ˆ•ÉĞˆ¤ì¥˜¡•ÉĞ¥•ÉĞ¹½¹±¥¬õ™¥¹…±•ÉĞì4)ô4(4(¼¨€´´´´´´´´´´%90€´´´´´´´´´´€¨¼4)™Õ¹Ñ¥½¸™¥¹…±•ÉĞ ¥ì4(€‰¥½¹™•ÑÑ¤ ¤ì4(€É½½Ğ¹¥¹¹•É!Q50ôˆˆì4(€½¹ÍĞÌõ‘½Õµ•¹Ğ¹É•…Ñ•±•µ•¹Ğ ‰‘¥Øˆ¤ìÌ¹±…ÍÍ9…µ”ô‰ÍÉ••¸ˆì4(€Ì¹¥¹¹•É!Q50õ€4(€€€€ñ‘¥Ø±…ÍÌô‰•ÉĞˆø4(€€€€€€ñ‘¥Ø±…ÍÌô‰Í•…°ˆø‘íÍ…Ù”¹…Ù…Ñ…Éôğ½‘¥Øø(€€€€€€ñ Èù¥Á±½µ„‘½Ì¥É•¥Ñ½Ìğ½ Èø(€€€€€€ñÀùÍÑ”•ÉÑ¥™¥…‘¼É•½¹¡•”ÅÕ”ğ½Àø(€€€€€€ñ‘¥Ø±…ÍÌô‰¹…µ”ˆø‘í•ÍŒ¡Í…Ù”¹¹…µ”¥ô½¹±Õ¥Ô„QÉ¥±¡„‘½Ì¥É•¥Ñ½Ì„ğ½‘¥Øø(€€€€€€ñÀøñÍÑÉ½¹œùI•½É‘”èğ½ÍÑÉ½¹œø€‘íÑ½Ñ…±MÑ…ÉÌ ¥ô¼‘í5a}MQIMô•ÍÑÉ•±…Ìƒ
+Ü€‘íÍ…Ù”¹Á½¥¹ÑÍô¼‘í5a}A=%9QMôÁ½¹Ñ½Ìƒ
+Ü€‘í™½Éµ…ÑQ¥µ”¡Í…Ù”¹•±…ÁÍ•‘5Ì¥ôğ½Àø(€€€€€€ñÀù½É„Ù½¨½¹¡•”½ÌÍ•ÕÌ‘¥É•¥Ñ½Ì¹¼ÑÉ…‰…±¡¼”¹„…ÁÉ•¹‘¥é…•´èğ½Àø4(€€€€€€ñÕ°ø4(€€€€€€€€ñ±¤ùOÌÍ”ÑÉ…‰…±¡„„Á…ÉÑ¥È‘½Ì€ÄĞ€¡…ÁÉ•¹‘¥è¤½Ô€ÄØ…¹½Ìğ½±¤ø4(€€€€€€€€ñ±¤ù…ÉÑ•¥É„…ÍÍ¥¹…‘„”½¹ÑÉ…Ñ¼ÁÉ½Ñ••´Ù½¨ğ½±¤ø4(€€€€€€€€ñ±¤øÄÏ
+è°›¥É¥…Ì”QLÏ¼‘¥É•¥Ñ½ÌÍ•ÕÌğ½±¤ø4(€€€€€€€€ñ±¤ùÍÑÕ‘…ÈÍ•µÁÉ”Ù•´ÁÉ¥µ•¥É¼ğ½±¤ø4(€€€€€€€€ñ±¤ùQÉ…‰…±¡¼¹½ÑÕÉ¹¼”Á•É¥½Í¼ƒ¤ÁÉ½¥‰¥‘¼ÁÉ„µ•¹½È‘”€Äàğ½±¤ø4(€€€€€€€€ñ±¤ù¥ÍÅÕ”€ÄÀÀÁ…É„‘•¹Õ¹¥…È”ÁÉ½Ñ••Èğ½±¤ø4(€€€€€€ğ½Õ°ø4(€€€€€€ñ‘¥Ø±…ÍÌô‰…Ñ¥½¹ÌˆÍÑå±”ô‰‘¥ÍÁ±…äé™±•àí…ÀèÄÁÁàí©ÕÍÑ¥™äµ½¹Ñ•¹Ğé•¹Ñ•Èíµ…É¥¸µÑ½ÀèÈÁÁàí™±•àµİÉ…ÀéİÉ…Àˆø4(€€€€€€€€ñ‰ÕÑÑ½¸±…ÍÌô‰‰Ñ¸´Í¡½ÍĞˆ¥ô‰Ñ½µ…ÀÈˆùY½±Ñ…È…¼µ…Á„ğ½‰ÕÑÑ½¸ø(€€€€€€€€ñ‰ÕÑÑ½¸±…ÍÌô‰‰Ñ¸´ÍÍÕ¸ˆ¥ô‰™¥¹…°µÉ…¹¬ˆûÂ~>Y•ÈÉ…¹­¥¹œğ½‰ÕÑÑ½¸ø(€€€€€€€€ñ‰ÕÑÑ½¸±…ÍÌô‰‰Ñ¸´Íˆ¥ô‰¹•áĞµÁ±…å•ÈˆùAËÍá¥µ¼©½…‘½Èğ½‰ÕÑÑ½¸ø(€€€€€€ğ½‘¥Øø4(€€€€ğ½‘¥Øù€ì4(€É½½Ğ¹…ÁÁ•¹‘¡¥±¡Ì¤ì4(€€ ˆÑ½µ…ÀÈˆ¤¹½¹±¥¬õµ…Àì(€€ ˆ™¥¹…°µÉ…¹¬ˆ¤¹½¹±¥¬õÉ…¹­¥¹œì(€€ ˆ¹•áĞµÁ±…å•Èˆ¤¹½¹±¥¬õ¡½½Í•A±…å•Èì)ô()™Õ¹Ñ¥½¸•¹‘)½ÕÉ¹•ä ¥ì(€½¹ÍĞÀõA!MMmÕÈ¹Á¡…Í•tì(€½¹ÍĞ…¹Íİ•É•õÕÈ¹Å¤¬¡ÕÈ¹…¹Íİ•É•üÄèÀ¤ì(€¥˜¡ÕÈ¹ÍÑ…ÉÑ•‘Ğ¤Í…Ù”¹•±…ÁÍ•‘5Ìô¡Í…Ù”¹•±…ÁÍ•‘5ÍñğÀ¤­5…Ñ ¹µ…à À±…Ñ”¹¹½Ü ¤µÕÈ¹ÍÑ…ÉÑ•‘Ğ¤ì(€ÕÈ¹ÍÑ…ÉÑ•‘ĞôÀì(€Á•ÉÍ¥ÍĞ ¤ì(€É½½Ğ¹¥¹¹•É!Q50ôˆˆì(€½¹ÍĞÌõ‘½Õµ•¹Ğ¹É•…Ñ•±•µ•¹Ğ ‰‘¥Øˆ¤ìÌ¹±…ÍÍ9…µ”ô‰ÍÉ••¸ˆì(€Ì¹¥¹¹•É!Q50õ€ñ‘¥Ø±…ÍÌô‰•á¥Ğµ…Éˆø(€€€€ñ‘¥Ø±…ÍÌô‰•á¥Ğµ¥½¸ˆûÂ~>W¾â<ğ½‘¥Øø(€€€€ñ Èù)½É¹…‘„Á…ÕÍ…‘„ğ½ Èø(€€€€ñÀø‘í•ÍŒ¡Í…Ù”¹¹…µ”¥ô°ÑÕ‘¼‰•´Á…É…È…½É„¸MÕ…Ì™…Í•Ì«„½¹±×µ‘…Ì°•ÍÑÉ•±…Ì”É•½É‘•Ì½¹Ñ¥¹Õ…´Õ…É‘…‘½Ì¸ğ½Àø(€€€€ñ‘¥Ø±…ÍÌô‰Í•ÍÍ¥½¸µÍ½É”ˆù9•ÍÑ„Ñ•¹Ñ…Ñ¥Ù„è€‘í…¹Íİ•É•‘ô‘”€‘íÀ¹Ä¹±•¹Ñ¡ô•Ñ…Á…ÌÙ¥Í¥Ñ…‘…Ìƒ
+Ü€‘íÕÈ¹½ÉÉ•Ñô…•ÉÑ¼‘íÕÈ¹½ÉÉ•ĞôôôÄüœœèÌôğ½‘¥Øø(€€€€ñÀøñÍµ…±°ùA…É„µ…¹Ñ•È¼É…¹­¥¹œ©ÕÍÑ¼°Õµ„™…Í”ÏÌÍ½µ„•ÍÑÉ•±…Ì”Á½¹Ñ½ÌÅÕ…¹‘¼¡•„…¼É•ÍÕ±Ñ…‘¼™¥¹…°¸ğ½Íµ…±°øğ½Àø(€€€€ñ‘¥Ø±…ÍÌô‰…Ñ¥½¹Ìˆø(€€€€€€ñ‰ÕÑÑ½¸±…ÍÌô‰‰Ñ¸´Í¡½ÍĞˆ¥ô‰•á¥Ğµµ…ÀˆùY•Èµ…Á„ğ½‰ÕÑÑ½¸ø(€€€€€€ñ‰ÕÑÑ½¸±…ÍÌô‰‰Ñ¸´ÍÍÕ¸ˆ¥ô‰•á¥ĞµÑ¥Ñ±”ˆùQ•±„¥¹¥¥…°ğ½‰ÕÑÑ½¸ø(€€€€€€ñ‰ÕÑÑ½¸±…ÍÌô‰‰Ñ¸´Íˆ¥ô‰•á¥ĞµÁ±…å•ÈˆùAËÍá¥µ¼©½…‘½Èğ½‰ÕÑÑ½¸ø(€€€€ğ½‘¥Øø(€€ğ½‘¥Øù€ì(€É½½Ğ¹…ÁÁ•¹‘¡¥±¡Ì¤ì(€€ ˆ•á¥Ğµµ…Àˆ¤¹½¹±¥¬õµ…Àì(€€ ˆ•á¥ĞµÑ¥Ñ±”ˆ¤¹½¹±¥¬õÑ¥Ñ±”ì(€€ ˆ•á¥ĞµÁ±…å•Èˆ¤¹½¹±¥¬õ¡½½Í•A±…å•Èì)ô(4(¼¨€´´´´´´´´´´½¹™•ÑÑ¤€´´´´´´´´´´€¨¼4)™Õ¹Ñ¥½¸‰ÕÉÍĞ¡¸¥ì4(€½¹ÍĞ‰½àô ˆ½¹™•ÑÑ¤ˆ¤ì‰½à¹±…ÍÍ1¥ÍĞ¹É•µ½Ù” ‰¡¥‘‘•¸ˆ¤ì4(€½¹ÍĞ½±Ìõlˆ™™ˆÍˆ°ˆŒÔİˆàÕ˜ˆ°ˆŒÍá‰Ğˆ°ˆ™˜ÙˆÕ”ˆ°ˆŒá„Ù˜À‰tì4(€™½È¡±•Ğ¤ôÀí¤ñ¸í¤¬¬¥ì4(€€€½¹ÍĞÀõ‘½Õµ•¹Ğ¹É•…Ñ•±•µ•¹Ğ ‰¤ˆ¤ì4(€€€À¹ÍÑå±”¹±•™Ğô ĞÀ­5…Ñ ¹É…¹‘½´ ¤¨ÈÀ¤¬ˆ”ˆìÀ¹ÍÑå±”¹‰…­É½Õ¹õ½±Ím¤•½±Ì¹±•¹Ñ¡tì4(€€€À¹ÍÑå±”¹…¹¥µ…Ñ¥½¹ÕÉ…Ñ¥½¸ô Ä­5…Ñ ¹É…¹‘½´ ¤¨¸à¤¬‰ÌˆìÀ¹ÍÑå±”¹Ñ½ÀôˆÌÀ”ˆì4(€€€‰½à¹…ÁÁ•¹‘¡¥±¡À¤ìÍ•ÑQ¥µ•½ÕĞ  ¤ôùÀ¹É•µ½Ù” ¤°ÄàÀÀ¤ì4(€ô4)ô4)™Õ¹Ñ¥½¸‰¥½¹™•ÑÑ¤ ¥ì4(€½¹ÍĞ‰½àô ˆ½¹™•ÑÑ¤ˆ¤ì‰½à¹±…ÍÍ1¥ÍĞ¹É•µ½Ù” ‰¡¥‘‘•¸ˆ¤ì4(€½¹ÍĞ½±Ìõlˆ™™ˆÍˆ°ˆŒÔİˆàÕ˜ˆ°ˆŒÍá‰Ğˆ°ˆ™˜ÙˆÕ”ˆ°ˆŒá„Ù˜À‰tì4(€™½È¡±•Ğ¤ôÀí¤ğØÀí¤¬¬¥ì4(€€€½¹ÍĞÀõ‘½Õµ•¹Ğ¹É•…Ñ•±•µ•¹Ğ ‰¤ˆ¤ì4(€€€À¹ÍÑå±”¹±•™Ğõ5…Ñ ¹É…¹‘½´ ¤¨ÄÀÀ¬ˆ”ˆìÀ¹ÍÑå±”¹‰…­É½Õ¹õ½±Ím¤•½±Ì¹±•¹Ñ¡tì4(€€€À¹ÍÑå±”¹…¹¥µ…Ñ¥½¹ÕÉ…Ñ¥½¸ô Ä¸Ø­5…Ñ ¹É…¹‘½´ ¤¨Ä¸Ø¤¬‰ÌˆìÀ¹ÍÑå±”¹…¹¥µ…Ñ¥½¹•±…äô¡5…Ñ ¹É…¹‘½´ ¤¨¸Ğ¤¬‰Ìˆì4(€€€‰½à¹…ÁÁ•¹‘¡¥±¡À¤ìÍ•ÑQ¥µ•½ÕĞ  ¤ôùÀ¹É•µ½Ù” ¤°ÌØÀÀ¤ì4(€ô4)ô4(4)Ñ¥Ñ±” ¤ì(ğ½ÍÉ¥ÁĞø(ğ½‰½‘äø(ğ½¡Ñµ°ø
