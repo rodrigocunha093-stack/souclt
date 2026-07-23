@@ -12,23 +12,23 @@ Bem-vindo! Você foi convidado a continuar o desenvolvimento do **Sou CLT** — 
 ### 2. **README.md**
    Visão geral do projeto, como rodar, status
 
-### 3. **CONTEXT.md** (na conversa do Claude)
+### 3. **docs/CONTEXT.md** (incluído no repositório)
    Resumo completo do que foi feito:
    - Por que foi rejeitado o formato visual-novel
    - Bugs encontrados e corrigidos
    - Testes realizados
    - Decisões tomadas
 
-### 4. **DESENVOLVIMENTO.md** (na conversa do Claude)
+### 4. **docs/DESENVOLVIMENTO.md** (incluído no repositório)
    Guia prático: como adicionar conteúdo, testar, publicar
    - Como adicionar perguntas
    - Como validar
 
-### 5. **VALIDACAO-JURIDICA.md** (na conversa do Claude)
+### 5. **docs/VALIDACAO-JURIDICA.md** (incluído no repositório)
    Matriz de cada pergunta com base legal CLT
    ⚠️ **CRÍTICO**: Antes de campanha pública, especialista TRT DEVE revisar
 
-### 6. **MEMORIA.md** (na conversa do Claude)
+### 6. **docs/MEMORIA.md** (incluído no repositório)
    O que funcionou, o que não funcionou
    Erros que não devem ser repetidos
 
@@ -58,15 +58,15 @@ Abrir: http://localhost:8000/trilha-dos-direitos.html
 
 ---
 
-## 📚 Documentos que Faltam
+## 📚 Documentação incluída
 
-A conversa original do Claude tem vários documentos que ainda não estão no GitHub:
-- **CONTEXT.md** — Histórico completo (copy-paste da conversa)
-- **DESENVOLVIMENTO.md** — Guia prático (copy-paste da conversa)
-- **VALIDACAO-JURIDICA.md** — Matriz CLT (copy-paste da conversa)
-- **MEMORIA.md** — Decisões e feedback (copy-paste da conversa)
+Os documentos de continuidade estão em `/docs/`:
+- **CONTEXT.md** — histórico recuperado e lacunas identificadas
+- **DESENVOLVIMENTO.md** — guia prático
+- **VALIDACAO-JURIDICA.md** — matriz das 21 perguntas, pendente de revisão especializada
+- **MEMORIA.md** — decisões, feedback disponível e cuidados para continuidade
 
-**TODO**: Pedir ao usuário para copiar esses arquivos da conversa e colocar em `/docs/`.
+Informações da conversa original que não puderam ser verificadas estão marcadas como **“A confirmar com o usuário”**.
 
 ---
 
@@ -101,7 +101,7 @@ Antes de QUALQUER campanha pública, **um especialista do TRT DEVE revisar**:
 - Cada resposta
 - Cada citação CLT
 
-Ver: VALIDACAO-JURIDICA.md
+Ver: `docs/VALIDACAO-JURIDICA.md`
 
 ### 2. Público-Alvo
 Este jogo é para **crianças 10-18 anos**, não para adultos.
@@ -139,9 +139,7 @@ https://github.com/rodrigocunha093-stack/souclt
 
 ## 📞 Dúvidas?
 
-Conversa original com Claude está em: 
-- **User email**: rodrigocunha093@gmail.com
-- **Contexto completo**: Conversa Claude (salva em CONTEXT.md)
+O contexto recuperado está em `docs/CONTEXT.md`. Trechos históricos sem evidência no repositório foram marcados para confirmação.
 
 ---
 

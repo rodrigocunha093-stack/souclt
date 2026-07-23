@@ -39,10 +39,10 @@
 souclt/
 ├── game/trilha-dos-direitos.html       # Protótipo funcional
 ├── docs/
-│   ├── CONTEXT.md                      # Histórico completo
-│   ├── DESENVOLVIMENTO.md              # Como continuar
-│   ├── VALIDACAO-JURIDICA.md           # Matriz CLT
-│   └── MEMORIA.md                      # Decisões e feedback
+│   ├── CONTEXT.md                      # Histórico confirmado e lacunas
+│   ├── DESENVOLVIMENTO.md              # Guia de continuidade
+│   ├── VALIDACAO-JURIDICA.md           # Matriz pendente de revisão TRT
+│   └── MEMORIA.md                      # Decisões e feedback disponíveis
 └── README.md                           # Este arquivo
 ```
 
