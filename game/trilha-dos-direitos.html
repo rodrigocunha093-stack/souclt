@@ -424,10 +424,10 @@ function cover(){
   const s=document.createElement("section"); s.className="screen cover";
   s.setAttribute("aria-labelledby","cover-title");
   s.innerHTML=`
-    <img class="cover-logo" src="assets/trt13-paraiba.png" alt="TRT da 13ª Região — Paraíba">
+    <img class="cover-logo" src="/game/assets/trt13-paraiba.png" onerror="this.onerror=null;this.src='assets/trt13-paraiba.png'" alt="TRT — 13ª Região — Paraíba">
     <h1 id="cover-title">Sou CLT</h1>
     <div class="cover-slogans"><span>Desmontando mitos</span><span class="gold">Fortalecendo direitos</span></div>
-    <img class="cover-art" src="assets/carteira-de-trabalho.jpg" alt="Carteira de Trabalho e Previdência Social">
+    <img class="cover-art" src="/game/assets/carteira-de-trabalho.jpg" onerror="this.onerror=null;this.src='assets/carteira-de-trabalho.jpg'" alt="Carteira de Trabalho e Previdência Social">
     <button class="btn-3d" id="enter-game">Começar a jornada ▸</button>
     <p class="cover-note">Uma aventura educativa sobre trabalho protegido, aprendizagem e direitos.</p>`;
   root.appendChild(s);
