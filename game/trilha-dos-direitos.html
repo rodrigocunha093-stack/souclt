@@ -176,6 +176,11 @@ body{
 @keyframes hero-walk{50%{transform:translateY(-5px) rotate(-3deg)}}@keyframes stop-glow{50%{box-shadow:0 0 0 8px rgba(255,203,61,.3)}}
 .stage-role{text-align:center;font-size:11px;font-weight:950;color:var(--blue-d);letter-spacing:.08em;text-transform:uppercase;margin:0 0 7px}.stage-role.guardian{color:var(--violet-d)}
 .reward-card{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#fff9d9,#fff);border:2px solid var(--sun);border-radius:18px;padding:12px 15px;margin:12px 0 2px;text-align:left;box-shadow:0 7px 16px -12px var(--shadow)}.reward-card .reward-icon{font-size:42px}.reward-card strong{display:block;font-size:14px}.reward-card small{display:block;color:var(--ink-soft);font-weight:700;line-height:1.35;margin-top:2px}
+.phase-intro{min-height:calc(100vh - 32px);border-radius:28px;padding:20px;overflow:hidden;color:#fff;justify-content:flex-end;box-shadow:0 18px 44px rgba(38,56,74,.3);isolation:isolate;background:linear-gradient(160deg,#1366a8,#063d77)}.phase-intro::before{content:"";position:absolute;inset:0;z-index:-2;background:var(--intro-bg)}.phase-intro::after{content:"";position:absolute;width:430px;height:430px;border:2px solid rgba(255,255,255,.15);border-radius:50%;right:-250px;top:-210px;z-index:-1}.intro-top{display:flex;justify-content:space-between;align-items:center;position:absolute;top:18px;left:18px;right:18px}.intro-phase{font-size:11px;font-weight:950;letter-spacing:.12em;text-transform:uppercase;background:rgba(0,0,0,.18);padding:7px 10px;border-radius:999px}.intro-scene{min-height:260px;display:flex;align-items:center;justify-content:center;position:relative}.intro-landscape{font-size:86px;filter:drop-shadow(0 14px 8px rgba(0,0,0,.22));animation:intro-float 2.8s ease-in-out infinite}.intro-npc{position:absolute;right:7%;bottom:15px;font-size:58px;filter:drop-shadow(0 8px 4px rgba(0,0,0,.2))}.intro-hero{position:absolute;left:7%;bottom:15px;font-size:58px;transform:scaleX(-1);filter:drop-shadow(0 8px 4px rgba(0,0,0,.2))}.intro-dialog{background:rgba(255,255,255,.96);color:var(--ink);border-radius:22px;padding:18px;box-shadow:0 12px 28px rgba(0,0,0,.2);position:relative}.intro-dialog::before{content:"";position:absolute;top:-14px;right:45px;border-width:0 14px 15px;border-style:solid;border-color:transparent transparent rgba(255,255,255,.96)}.intro-dialog .speaker{font-size:11px;color:var(--blue-d);font-weight:950;text-transform:uppercase;letter-spacing:.08em}.intro-dialog h2{font-size:25px;line-height:1.05;margin:5px 0 8px}.intro-dialog p{font-size:14px;line-height:1.48;color:var(--ink-soft);font-weight:650}.intro-objective{display:flex;gap:9px;align-items:center;background:#edf7ff;border-radius:14px;padding:10px 12px;margin:12px 0;font-size:12px;font-weight:850;color:var(--blue-d)}.intro-actions{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}.intro-actions .btn-3d{font-size:16px;padding:12px 17px}.intro-actions .ghost{box-shadow:0 5px 0 #d7e1e8}
+@keyframes intro-float{50%{transform:translateY(-9px) rotate(2deg)}}
+.intro-portal{--intro-bg:radial-gradient(circle at 50% 25%,#79d6ff 0 18%,transparent 19%),linear-gradient(#4aabe2 0 58%,#55a95c 58%)}.intro-workshop{--intro-bg:linear-gradient(150deg,#227b70,#65bf78)}.intro-agency{--intro-bg:linear-gradient(150deg,#24558b,#57a4c5)}.intro-vault{--intro-bg:radial-gradient(circle at 50% 35%,#7857c6,#35276e 70%)}.intro-school{--intro-bg:linear-gradient(150deg,#ec9b45,#f1ce67)}.intro-hazard{--intro-bg:linear-gradient(150deg,#343e4b,#d76a3b)}.intro-rescue{--intro-bg:linear-gradient(150deg,#1684a8,#174f89)}.intro-court{--intro-bg:radial-gradient(circle at 50% 20%,#6579da,#172968 70%)}
+.action-banner{display:flex;align-items:center;gap:10px;border-radius:15px;padding:10px 12px;margin-bottom:11px;color:#fff;font-size:12px;font-weight:850;box-shadow:0 5px 12px -8px var(--shadow)}.action-banner span{font-size:25px}.mode-portal .action-banner{background:#258ac6}.mode-kit .action-banner{background:#16815d}.mode-detective .action-banner{background:#315f91}.mode-vault .action-banner{background:#7047b7}.mode-schedule .action-banner{background:#d48322}.mode-hazard .action-banner{background:#ba4a35}.mode-dispatch .action-banner{background:#147f9d}.mode-verdict .action-banner{background:#3e4d9e}
+.mode-portal .opt{border-radius:22px;border-width:3px;background:linear-gradient(135deg,#edfaff,#d9f2ff)}.mode-kit .opt{background:#edf8ec;border-style:dashed}.mode-detective .opt{background:#eef4fa;border-left:7px solid #315f91}.mode-vault .opt{background:#f6f0ff;border-color:#b89ce3}.mode-schedule .opt{background:#fff8dc;border-left:7px solid #e6a63b}.mode-hazard .opt{background:#fff2ed;border-color:#e7a18e}.mode-dispatch .opt{background:#edfaff;border-left:7px solid #24a6bf}.mode-verdict .opt{background:#f1f2ff;border-color:#8d98dc}
 .exit-card{background:#fff;border-radius:24px;padding:22px;text-align:center;box-shadow:0 16px 40px -18px var(--shadow);margin:auto 0}.exit-card .exit-icon{font-size:58px}.exit-card h2{font-size:27px;margin:5px 0}.exit-card p{color:var(--ink-soft);line-height:1.5;font-weight:600}.exit-card .session-score{background:var(--cream);border:2px solid var(--edge);border-radius:16px;padding:12px;margin:15px 0;font-weight:900}.exit-card .actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:18px}
 
 .qmascot{position:absolute;right:12px;top:-46px;width:64px;z-index:2}
@@ -380,6 +385,16 @@ const WORLD_DECOR=[
   ["☀️","🏫","📚"],["🌙","⚠️","🚧"],["☀️","🏛️","📣"],["✨","🏰","🛡️"]
 ];
 const RELIC_NAMES=["Chave da Idade Certa","Mochila do Aprendiz","Pergaminho da Proteção","Cofre dos Direitos","Livro da Escola","Capacete da Segurança","Farol de Ajuda","Escudo do Trabalho Protegido"];
+const ADVENTURE_META=[
+ {mode:"portal",place:"Portal das Idades",landscape:"🏘️",npc:"🧙",speaker:"Guardião do Tempo",brief:"Os Mitos fecharam os portões da cidade. Cada pessoa precisa encontrar a entrada permitida pela lei.",objective:"Abra os portões 14, 16 e 18 usando as regras de proteção.",action:"Escolha o portal que respeita a idade e protege o personagem.",actionIcon:"🚪"},
+ {mode:"kit",place:"Academia do Aprendiz",landscape:"🛠️",npc:"👩‍🏫",speaker:"Mestra da Academia",brief:"A oficina perdeu os itens que formam uma aprendizagem protegida. Sem eles, ninguém pode começar a missão.",objective:"Monte o kit com formação, registro e proteção à escola.",action:"Selecione a peça correta para completar o Kit do Aprendiz.",actionIcon:"🎒"},
+ {mode:"detective",place:"Agência do Primeiro Contrato",landscape:"🏢",npc:"🕵️",speaker:"Agente da Proteção",brief:"Há contratos verdadeiros e promessas enganosas nesta agência. Precisamos investigar cada pista.",objective:"Descubra quais documentos e relações realmente protegem quem trabalha.",action:"Analise as evidências e escolha a conclusão da investigação.",actionIcon:"🔎"},
+ {mode:"vault",place:"Banco dos Direitos",landscape:"🏦",npc:"🧝",speaker:"Guardião do Cofre",brief:"O Cofre dos Direitos foi embaralhado. Férias, 13º e FGTS precisam voltar aos compartimentos corretos.",objective:"Recupere os três tesouros financeiros de quem trabalha.",action:"Escolha a chave que abre o compartimento certo do cofre.",actionIcon:"🔐"},
+ {mode:"schedule",place:"Ponte da Escola",landscape:"🏫",npc:"👨‍🏫",speaker:"Guia da Escola",brief:"Os Mitos bagunçaram os horários e bloquearam a ponte. A educação não pode ficar para trás.",objective:"Organize trabalho, formação e escola sem prejudicar os estudos.",action:"Escolha a decisão que mantém aberta a Ponte da Escola.",actionIcon:"🗓️"},
+ {mode:"hazard",place:"Zona de Perigo",landscape:"🏗️",npc:"👷",speaker:"Inspetora de Segurança",brief:"Existem riscos escondidos na zona industrial. Você deve encontrá-los antes que um adolescente entre.",objective:"Identifique trabalho noturno, perigoso e prejudicial ao desenvolvimento.",action:"Faça a inspeção e marque a situação segura ou proibida.",actionIcon:"⚠️"},
+ {mode:"dispatch",place:"Central de Proteção",landscape:"📡",npc:"👩‍⚖️",speaker:"Operadora da Rede",brief:"Um pedido de ajuda chegou à central. Precisamos acionar o caminho correto antes que o sinal desapareça.",objective:"Conecte denúncias e conflitos aos canais adequados de proteção.",action:"Envie o chamado ao canal capaz de ajudar nessa situação.",actionIcon:"📞"},
+ {mode:"verdict",place:"Fortaleza dos Direitos",landscape:"🏛️",npc:"🛡️",speaker:"Guardião Final",brief:"Você chegou ao julgamento dos Mitos. Todas as peças do escudo serão colocadas à prova.",objective:"Decida quando o trabalho é protegido e quando crianças e adolescentes não devem trabalhar.",action:"Analise o caso e dê o veredito que completa o Escudo dos Direitos.",actionIcon:"⚖️"}
+];
 
 const KEY="trilha_direitos_competicao_v2";
 const AVATARS=["🦉","🦊","🐼","🦁","🐸","🐰"];
@@ -611,13 +626,27 @@ function trailPath(){
 function wiggle(n){n.animate([{transform:'translateX(0)'},{transform:'translateX(-6px)'},{transform:'translateX(6px)'},{transform:'translateX(0)'}],{duration:300});}
 
 /* ---------- QUIZ ---------- */
-function startPhase(id){
+function phaseIntro(id){
+  const p=PHASES[id], meta=ADVENTURE_META[id];
+  root.innerHTML="";
+  const s=document.createElement("section"); s.className=`screen phase-intro intro-${meta.mode}`;
+  s.innerHTML=`
+    <div class="intro-top"><span class="intro-phase">Mundo ${id+1} de ${PHASES.length}</span><span class="player-badge"><span>${save.avatar}</span>${esc(save.name)}</span></div>
+    <div class="intro-scene" aria-hidden="true"><span class="intro-hero">${save.avatar}</span><span class="intro-landscape">${meta.landscape}</span><span class="intro-npc">${meta.npc}</span></div>
+    <div class="intro-dialog"><div class="speaker">${meta.speaker}</div><h2>${meta.place}</h2><p>${meta.brief}</p><div class="intro-objective"><span>🎯</span><span><strong>Objetivo:</strong> ${meta.objective}</span></div><div class="intro-actions"><button class="btn-3d ghost" id="intro-map">Mapa</button><button class="btn-3d" id="begin-phase">Entrar no mundo ▸</button></div></div>`;
+  root.appendChild(s);
+  $("#intro-map").onclick=map;
+  $("#begin-phase").onclick=()=>startPhase(id,true);
+}
+function startPhase(id,skipIntro=false){
+  if(!skipIntro){phaseIntro(id);return;}
   cur={phase:id,qi:0,correct:0,answered:false,startedAt:Date.now()};
   quiz();
 }
 function quiz(){
   const p=PHASES[cur.phase]; const item=p.q[cur.qi];
   const journey=JOURNEY[cur.phase];
+  const meta=ADVENTURE_META[cur.phase];
   const decor=WORLD_DECOR[cur.phase];
   // shuffle options, remember correct
   const idx=item.o.map((_,i)=>i);
@@ -642,8 +671,9 @@ function quiz(){
       <div class="world-avatar at-${cur.qi}" aria-hidden="true">${save.avatar}</div>
     </div>
     <div class="step-dots" aria-label="Etapa ${cur.qi+1} de ${p.q.length}">${p.q.map((_,i)=>`<span class="step-dot ${i<cur.qi?'done':i===cur.qi?'now':''}" aria-hidden="true"></span>`).join("")}</div>
-    <div class="qcard">
+    <div class="qcard mode-${meta.mode}">
       <div class="qmascot" id="qm"></div>
+      <div class="action-banner"><span>${meta.actionIcon}</span><div>${meta.action}</div></div>
       <div class="stage-role ${cur.qi===p.q.length-1?'guardian':''}">${STAGE_ROLES[cur.qi]}</div>
       <div class="qnum">Etapa ${cur.qi+1} de ${p.q.length}</div>
       <div class="qtext" id="question-text">${item.q}</div>
@@ -728,7 +758,7 @@ function phaseResult(){
     <button class="small-link" id="tomap">voltar ao mapa</button>`;
   root.appendChild(s);
   s.insertBefore(owl(stars>=2?"happy":""), s.firstChild);
-  $("#retry").onclick=()=>startPhase(p.id);
+  $("#retry").onclick=()=>startPhase(p.id,true);
   $("#tomap").onclick=map;
   const cont=$("#cont"); if(cont)cont.onclick=()=>{ if(cur.phase<PHASES.length-1 && (save.unlocked>cur.phase+1||stars>=1)){startPhase(cur.phase+1);} else {map();} };
   const cert=$("#cert"); if(cert)cert.onclick=finalCert;
