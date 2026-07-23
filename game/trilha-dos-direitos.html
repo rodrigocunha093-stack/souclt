@@ -168,6 +168,14 @@ body{
 @keyframes pulse-dot{50%{transform:scale(1.35)}}
 .end-btn{border:0;background:rgba(255,255,255,.88);color:var(--coral-d);border-radius:12px;padding:9px 10px;font:800 12px var(--font);cursor:pointer;box-shadow:0 3px 0 var(--edge);white-space:nowrap}.end-btn:hover{transform:translateY(-1px)}
 .map-story{background:rgba(255,255,255,.78);border-radius:14px;padding:9px 12px;margin:6px 0 3px;font-size:13px;font-weight:700;color:var(--ink-soft);line-height:1.4}
+.inventory{background:rgba(255,255,255,.86);border-radius:18px;padding:12px;margin:8px 0 4px;box-shadow:0 5px 14px -10px var(--shadow)}.inventory-head{display:flex;justify-content:space-between;gap:8px;align-items:center;font-size:12px;font-weight:900;color:var(--ink-soft)}.inventory-head strong{color:var(--ink)}.relics{display:grid;grid-template-columns:repeat(8,1fr);gap:5px;margin-top:8px}.relic{aspect-ratio:1;border-radius:10px;background:#e8edf1;display:grid;place-items:center;font-size:20px;filter:grayscale(1);opacity:.42;border:2px solid #d5dde3}.relic.won{background:#fff4c9;border-color:var(--sun);filter:none;opacity:1;animation:relic-in .5s cubic-bezier(.2,1.5,.4,1)}
+@keyframes relic-in{from{transform:scale(.3) rotate(-15deg)}to{transform:none}}
+.adventure-world{height:150px;border-radius:22px;margin-bottom:13px;position:relative;overflow:hidden;border:3px solid rgba(255,255,255,.8);box-shadow:0 10px 22px -14px var(--shadow);isolation:isolate;background:linear-gradient(#78cef1 0 58%,#70c66c 58%)}
+.adventure-world::before{content:"";position:absolute;inset:auto -5% 0;height:45%;background:radial-gradient(ellipse at 10% 100%,#3e9b50 0 35%,transparent 36%),radial-gradient(ellipse at 48% 110%,#55b864 0 42%,transparent 43%),radial-gradient(ellipse at 88% 100%,#3e9b50 0 36%,transparent 37%);z-index:-1}.world-1{background:linear-gradient(#79cbed 0 57%,#ddb57a 57%)}.world-2{background:linear-gradient(#8bd3f0 0 56%,#78bd70 56%)}.world-3{background:linear-gradient(#8f7ce5 0 55%,#6749b8 55%)}.world-4{background:linear-gradient(#79cbef 0 56%,#d9bf79 56%)}.world-5{background:linear-gradient(#7187ac 0 55%,#4f647f 55%)}.world-6{background:linear-gradient(#88c9e6 0 56%,#84b66e 56%)}.world-7{background:linear-gradient(#5668bd 0 55%,#6c7dca 55%)}
+.world-sky{position:absolute;inset:8px 12px auto;display:flex;justify-content:space-between;font-size:28px;opacity:.9}.world-title{position:absolute;top:8px;left:50%;transform:translateX(-50%);background:rgba(255,255,255,.92);border-radius:999px;padding:4px 11px;font-size:10px;font-weight:950;letter-spacing:.05em;text-transform:uppercase;white-space:nowrap;color:var(--ink);z-index:4}.world-path{position:absolute;left:9%;right:9%;bottom:25px;height:8px;background:#f8e2a5;border:2px solid #dbb86b;border-radius:999px;transform:rotate(-1deg)}.world-stops{position:absolute;left:8%;right:8%;bottom:17px;display:flex;justify-content:space-between;align-items:end}.world-stop{width:38px;height:38px;background:rgba(255,255,255,.9);border:3px solid #fff;border-radius:14px;display:grid;place-items:center;font-size:21px;box-shadow:0 5px 8px rgba(38,56,74,.17);position:relative}.world-stop.done{background:#dff4df;border-color:var(--grass)}.world-stop.current{border-color:var(--sun);animation:stop-glow 1.3s ease-in-out infinite}.world-stop.guardian::after{content:"GUARDIÃO";position:absolute;bottom:-17px;font-size:7px;font-weight:950;color:#fff;background:var(--violet);padding:2px 4px;border-radius:4px}.world-avatar{position:absolute;bottom:48px;font-size:39px;line-height:1;z-index:5;filter:drop-shadow(0 5px 3px rgba(38,56,74,.28));transition:left .65s cubic-bezier(.2,.9,.3,1);animation:hero-walk 1s ease-in-out infinite}.world-avatar.at-0{left:7%}.world-avatar.at-1{left:calc(50% - 20px)}.world-avatar.at-2{left:calc(90% - 39px)}
+@keyframes hero-walk{50%{transform:translateY(-5px) rotate(-3deg)}}@keyframes stop-glow{50%{box-shadow:0 0 0 8px rgba(255,203,61,.3)}}
+.stage-role{text-align:center;font-size:11px;font-weight:950;color:var(--blue-d);letter-spacing:.08em;text-transform:uppercase;margin:0 0 7px}.stage-role.guardian{color:var(--violet-d)}
+.reward-card{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#fff9d9,#fff);border:2px solid var(--sun);border-radius:18px;padding:12px 15px;margin:12px 0 2px;text-align:left;box-shadow:0 7px 16px -12px var(--shadow)}.reward-card .reward-icon{font-size:42px}.reward-card strong{display:block;font-size:14px}.reward-card small{display:block;color:var(--ink-soft);font-weight:700;line-height:1.35;margin-top:2px}
 .exit-card{background:#fff;border-radius:24px;padding:22px;text-align:center;box-shadow:0 16px 40px -18px var(--shadow);margin:auto 0}.exit-card .exit-icon{font-size:58px}.exit-card h2{font-size:27px;margin:5px 0}.exit-card p{color:var(--ink-soft);line-height:1.5;font-weight:600}.exit-card .session-score{background:var(--cream);border:2px solid var(--edge);border-radius:16px;padding:12px;margin:15px 0;font-weight:900}.exit-card .actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:18px}
 
 .qmascot{position:absolute;right:12px;top:-46px;width:64px;z-index:2}
@@ -366,6 +374,12 @@ const JOURNEY=[
   {treasure:"📣",title:"Farol de ajuda",story:"Aprenda quais caminhos acendem a rede de proteção.",cheer:"O farol da proteção ficou mais forte!"},
   {treasure:"🛡️",title:"Escudo do trabalho protegido",story:"Junte todas as pistas e decida quando trabalhar — e quando não trabalhar.",cheer:"Seu escudo ganhou mais força!"}
 ];
+const STAGE_ROLES=["Desafio do caminho","Descoberta dos direitos","Guardião da fase"];
+const WORLD_DECOR=[
+  ["☀️","🏠","🎈"],["☁️","🏫","🎓"],["☀️","🏢","📜"],["✨","🏦","💰"],
+  ["☀️","🏫","📚"],["🌙","⚠️","🚧"],["☀️","🏛️","📣"],["✨","🏰","🛡️"]
+];
+const RELIC_NAMES=["Chave da Idade Certa","Mochila do Aprendiz","Pergaminho da Proteção","Cofre dos Direitos","Livro da Escola","Capacete da Segurança","Farol de Ajuda","Escudo do Trabalho Protegido"];
 
 const KEY="trilha_direitos_competicao_v2";
 const AVATARS=["🦉","🦊","🐼","🦁","🐸","🐰"];
@@ -551,6 +565,10 @@ function map(){
     </div>
     <h2>Escolha a fase</h2>
     <div class="map-story">🗺️ Cada fase guarda uma peça do Escudo dos Direitos. Escolha uma missão e avance pela trilha!</div>
+    <div class="inventory" aria-label="Coleção de artefatos da jornada">
+      <div class="inventory-head"><strong>🎒 Artefatos da aventura</strong><span>${completedPhases(save)}/${PHASES.length} encontrados</span></div>
+      <div class="relics">${PHASES.map((ph,i)=>`<div class="relic ${(save.stars[ph.id]||0)>0?'won':''}" title="${RELIC_NAMES[i]}" aria-label="${RELIC_NAMES[i]}: ${(save.stars[ph.id]||0)>0?'conquistado':'a conquistar'}">${JOURNEY[i].treasure}</div>`).join("")}</div>
+    </div>
     <div class="trail">
       <svg class="trail-line" width="120" viewBox="0 0 120 ${PHASES.length*100}" preserveAspectRatio="none">
         <path d="${trailPath()}" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round" stroke-dasharray="2 16" opacity=".8"/>
@@ -600,6 +618,7 @@ function startPhase(id){
 function quiz(){
   const p=PHASES[cur.phase]; const item=p.q[cur.qi];
   const journey=JOURNEY[cur.phase];
+  const decor=WORLD_DECOR[cur.phase];
   // shuffle options, remember correct
   const idx=item.o.map((_,i)=>i);
   for(let i=idx.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[idx[i],idx[j]]=[idx[j],idx[i]];}
@@ -615,10 +634,18 @@ function quiz(){
     </div>
     <div class="qbanner"><span class="ic">${p.icon}</span><div class="t">Fase ${p.id+1}<b>${p.name}</b></div><div class="player-badge" style="margin-left:auto"><span>${save.avatar}</span>${esc(save.name)}</div></div>
     <div class="journey-strip"><span class="treasure" aria-hidden="true">${journey.treasure}</span><div><strong>Missão: ${journey.title}</strong><small>${journey.story}</small></div></div>
+    <div class="adventure-world world-${cur.phase}" aria-label="${esc(save.name)} está na etapa ${cur.qi+1} da aventura">
+      <div class="world-title">${journey.title}</div>
+      <div class="world-sky" aria-hidden="true"><span>${decor[0]}</span><span>${decor[1]}</span><span>${decor[2]}</span></div>
+      <div class="world-path" aria-hidden="true"></div>
+      <div class="world-stops" aria-hidden="true">${p.q.map((_,i)=>`<span class="world-stop ${i<cur.qi?'done':i===cur.qi?'current':''} ${i===p.q.length-1?'guardian':''}">${i<cur.qi?'✓':i===p.q.length-1?'🏆':i+1}</span>`).join("")}</div>
+      <div class="world-avatar at-${cur.qi}" aria-hidden="true">${save.avatar}</div>
+    </div>
     <div class="step-dots" aria-label="Etapa ${cur.qi+1} de ${p.q.length}">${p.q.map((_,i)=>`<span class="step-dot ${i<cur.qi?'done':i===cur.qi?'now':''}" aria-hidden="true"></span>`).join("")}</div>
     <div class="qcard">
       <div class="qmascot" id="qm"></div>
-      <div class="qnum">Pergunta ${cur.qi+1} de ${p.q.length}</div>
+      <div class="stage-role ${cur.qi===p.q.length-1?'guardian':''}">${STAGE_ROLES[cur.qi]}</div>
+      <div class="qnum">Etapa ${cur.qi+1} de ${p.q.length}</div>
       <div class="qtext" id="question-text">${item.q}</div>
       <div class="opts" id="opts" role="group" aria-labelledby="question-text"></div>
       <div class="feedback" id="fb" role="status" aria-live="polite"></div>
@@ -693,6 +720,7 @@ function phaseResult(){
     <div class="big-stars">${[0,1,2].map(i=>`<span class="bs ${i<stars?'on':''}">★</span>`).join("")}</div>
     <div class="rscore">✅ ${got} de ${total} certas · recorde ${save.points}/${MAX_POINTS} pontos</div>
     <p class="msg">${msgs[stars]}</p>
+    ${stars>=1?`<div class="reward-card"><span class="reward-icon">${JOURNEY[p.id].treasure}</span><div><strong>Artefato conquistado: ${RELIC_NAMES[p.id]}</strong><small>Esta peça agora faz parte do seu Escudo dos Direitos.</small></div></div>`:''}
     <div class="actions">
       <button class="btn-3d ghost" id="retry">↻ Refazer</button>
       ${allDone?'<button class="btn-3d sun" id="cert">🏆 Meu diploma</button>':`<button class="btn-3d" id="cont">${cur.phase<PHASES.length-1?'Próxima fase ▸':'Ver mapa ▸'}</button>`}
