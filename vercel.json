@@ -2,10 +2,11 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
   "trailingSlash": false,
-  "rewrites": [
+  "redirects": [
     {
       "source": "/",
-      "destination": "/game/trilha-dos-direitos.html"
+      "destination": "/game/trilha-dos-direitos",
+      "permanent": false
     }
   ],
   "headers": [
